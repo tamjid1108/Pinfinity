@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
   pin: {
     width: "100%",
     marginBottom: 20,
-    padding: 8,
+    padding: 4,
   },
   image: {
     width: "100%",
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 10,
     right: 10,
-    backgroundColor: "#eee",
+    backgroundColor: "#ebebeb",
     padding: 10,
     borderRadius: 50,
   },

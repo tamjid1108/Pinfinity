@@ -1,30 +1,64 @@
-import { StyleSheet } from "react-native";
-
-import EditScreenInfo from "../../components/EditScreenInfo";
+import { StyleSheet, Image, Pressable, ScrollView } from "react-native";
+import { Feather } from "@expo/vector-icons";
 import { Text, View } from "../../components/Themed";
+import MasonryList from "../../components/MasonryList";
+import pins from "../../assets/data/pins";
 
-export default function TabTwoScreen() {
+export default function ProfileTab() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab Two</Text>
-      {/* <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" /> */}
-    </View>
+    <ScrollView>
+      <View style={styles.profile}>
+        <View>
+          <Image
+            source={{
+              uri: "https://media.licdn.com/dms/image/D5603AQE46ZBPlCLQEg/profile-displayphoto-shrink_800_800/0/1673192951205?e=2147483647&v=beta&t=6JLQp8jth0E43xMALYIHYEDLOBmqc83MBTaV9AIIPzo",
+            }}
+            style={styles.image}
+          />
+          <Pressable style={styles.action_button}>
+            <Feather name="edit-2" size={24} color="black" />
+          </Pressable>
+        </View>
+
+        <Text style={styles.title}>Tamjid Logan</Text>
+        <Text style={styles.subtitle}>123 followers | 101 following</Text>
+      </View>
+      <View>
+        <Text style={styles.title}>Your pins, right here!</Text>
+        <MasonryList pins={pins} />
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  profile: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    paddingVertical: 40,
   },
   title: {
     fontSize: 20,
     fontWeight: "bold",
+    margin: 20,
   },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
+  subtitle: {
+    fontSize: 16,
+    fontWeight: "600",
+    opacity: 0.7,
+  },
+  image: {
+    width: 200,
+    aspectRatio: 1,
+    borderRadius: 100,
+  },
+  action_button: {
+    position: "absolute",
+    bottom: 10,
+    right: 10,
+    backgroundColor: "#ebebeb",
+    padding: 10,
+    borderRadius: 50,
   },
 });
