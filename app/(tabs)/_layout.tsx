@@ -53,7 +53,16 @@ export default function TabLayout() {
         options={{
           title: "Post a pin",
           tabBarIcon: ({ color }) => (
-            <Feather name="plus-square" size={24} color={color} />
+            <Feather name="plus-square" size={28} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="BoardTab"
+        options={{
+          title: "Your boards",
+          tabBarIcon: ({ color }) => (
+            <Feather name="clipboard" size={26} color={color} />
           ),
         }}
       />
@@ -62,7 +71,7 @@ export default function TabLayout() {
         options={{
           title: "Profile",
           tabBarIcon: ({ color }) => (
-            <Feather name="user" size={24} color={color} />
+            <Feather name="user" size={26} color={color} />
           ),
         }}
       />

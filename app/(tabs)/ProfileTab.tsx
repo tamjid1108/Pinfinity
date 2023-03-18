@@ -20,7 +20,8 @@ export default function ProfileTab() {
           </Pressable>
         </View>
 
-        <Text style={styles.title}>Tamjid Logan</Text>
+        <Text style={styles.name}>Tamjid Logan</Text>
+        <Text style={styles.subtitle}>@tam_11</Text>
         <Text style={styles.subtitle}>123 followers | 101 following</Text>
       </View>
       <View>
@@ -38,13 +39,18 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingVertical: 40,
   },
+  name: {
+    fontSize: 24,
+    fontWeight: "bold",
+    margin: 20,
+  },
   title: {
     fontSize: 20,
     fontWeight: "bold",
     margin: 20,
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: "600",
     opacity: 0.7,
   },
