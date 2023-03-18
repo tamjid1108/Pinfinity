@@ -28,30 +28,38 @@ export default function NewPinTab() {
   };
 
   return (
-    <View style={styles.container}>
+    <>
       {image ? (
-        <View style={{ width: "60%" }}>
-          <Image
-            source={{ uri: image }}
-            style={[styles.preview, { aspectRatio: ratio }]}
-          />
-          <Pressable onPress={onClose} style={styles.action_button}>
-            <Ionicons name="ios-close" size={24} color="white" />
-          </Pressable>
-        </View>
-      ) : (
         <>
-          <Text style={styles.title}>"Unleash inspiration"</Text>
+          <View style={styles.container}>
+            <TouchableOpacity style={styles.next_button} activeOpacity={0.9}>
+              <Text style={styles.button_text}>Next</Text>
+            </TouchableOpacity>
+
+            <View style={{ width: "60%" }}>
+              <Image
+                source={{ uri: image }}
+                style={[styles.preview, { aspectRatio: ratio }]}
+              />
+              <Pressable onPress={onClose} style={styles.action_button}>
+                <Ionicons name="ios-close" size={24} color="white" />
+              </Pressable>
+            </View>
+          </View>
+        </>
+      ) : (
+        <View style={styles.container}>
+          <Text style={styles.title}>Unleash inspiration</Text>
           <TouchableOpacity
             onPress={pickImage}
             style={styles.pick_button}
             activeOpacity={0.9}
           >
-            <Text style={styles.button_text}>Pick an image</Text>
+            <Text style={styles.button_text}>Pick</Text>
           </TouchableOpacity>
-        </>
+        </View>
       )}
-    </View>
+    </>
   );
 }
 
@@ -62,13 +70,23 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   title: {
-    fontSize: 26,
+    fontSize: 20,
     marginBottom: 40,
   },
   pick_button: {
     backgroundColor: "#D10000",
     borderRadius: 50,
-    padding: 20,
+    paddingVertical: 20,
+    paddingHorizontal: 40,
+  },
+  next_button: {
+    backgroundColor: "#D10000",
+    borderRadius: 50,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    position: "absolute",
+    top: 10,
+    right: 10,
   },
   button_text: {
     color: "white",
@@ -82,10 +100,11 @@ const styles = StyleSheet.create({
   },
   action_button: {
     position: "absolute",
-    top: -10,
-    right: -10,
+    bottom: -20,
+    right: "50%",
     backgroundColor: "#D10000",
     padding: 10,
     borderRadius: 50,
+    transform: [{ translateX: 23 }],
   },
 });
