@@ -22,6 +22,7 @@ export default function ProfileTab() {
 
         <Text style={styles.name}>Tamjid Logan</Text>
         <Text style={styles.subtitle}>@tam_11</Text>
+
         <Text style={styles.subtitle}>123 followers | 101 following</Text>
       </View>
       <View>
