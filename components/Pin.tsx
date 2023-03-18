@@ -22,8 +22,8 @@ export default function Pin(props) {
   };
 
   const truncate = (title) => {
-    if (title.length > 15) {
-      return title.substring(0, 15) + "...";
+    if (title.length > 18) {
+      return title.substring(0, 18) + "...";
     }
     return title;
   };
@@ -47,7 +47,7 @@ export default function Pin(props) {
       <TouchableWithoutFeedback
         onLongPress={handleLongPress}
         onPress={handlePress}
-        delayLongPress={500}
+        delayLongPress={300}
       >
         {showIcons ? (
           <View>
@@ -57,7 +57,7 @@ export default function Pin(props) {
               blurRadius={30}
             />
             <Pressable onPress={onPin} style={styles.action_button}>
-              <AntDesign name="pushpino" size={28} color="black" />
+              <AntDesign name="pushpino" size={24} color="white" />
             </Pressable>
           </View>
         ) : (
@@ -67,7 +67,7 @@ export default function Pin(props) {
           />
         )}
       </TouchableWithoutFeedback>
-      <Text style={styles.title}>{truncate(title)}</Text>
+      <Text style={styles.title}>{showIcons ? title : truncate(title)}</Text>
     </View>
   );
 }
@@ -75,23 +75,23 @@ export default function Pin(props) {
 const styles = StyleSheet.create({
   pin: {
     width: "100%",
-    marginBottom: 20,
-    padding: 4,
+    marginBottom: 10,
+    padding: 6,
   },
   image: {
     width: "100%",
     borderRadius: 10,
   },
   title: {
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: "bold",
-    marginTop: 10,
+    margin: 5,
   },
   action_button: {
     position: "absolute",
     bottom: 10,
     right: 10,
-    backgroundColor: "#ebebeb",
+    backgroundColor: "#D10000",
     padding: 10,
     borderRadius: 50,
   },

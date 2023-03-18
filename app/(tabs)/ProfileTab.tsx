@@ -16,7 +16,7 @@ export default function ProfileTab() {
             style={styles.image}
           />
           <Pressable style={styles.action_button}>
-            <Feather name="edit-2" size={24} color="black" />
+            <Feather name="edit-2" size={24} color="white" />
           </Pressable>
         </View>
 
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 10,
     right: 10,
-    backgroundColor: "#ebebeb",
+    backgroundColor: "#D10000",
     padding: 10,
     borderRadius: 50,
   },
