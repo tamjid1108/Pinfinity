@@ -49,6 +49,16 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="SearchTab"
+        options={{
+          title: "Search",
+          tabBarIcon: ({ color }) => (
+            <Feather name="search" size={24} color={color} />
+          ),
+          headerShown: false,
+        }}
+      />
+      <Tabs.Screen
         name="NewPinTab"
         options={{
           title: "Post a pin",

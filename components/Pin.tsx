@@ -2,17 +2,18 @@ import { useEffect, useState } from "react";
 import {
   StyleSheet,
   Image,
-  TouchableOpacity,
   Vibration,
   TouchableWithoutFeedback,
-  TouchableHighlight,
   Pressable,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-
 import { Text, View } from "./Themed";
+import { useNavigation } from "@react-navigation/native";
+import PinScreen from "./PinScreen";
 
 export default function Pin(props) {
+  const navigation = useNavigation();
+
   const [showIcons, setShowIcons] = useState(false);
   const [ratio, setRatio] = useState(1);
 
@@ -34,7 +35,7 @@ export default function Pin(props) {
 
   const onPin = () => {};
 
-  const { title, image } = props.pin;
+  const { id, title, image } = props.pin;
 
   useEffect(() => {
     Image.getSize(image, (width, height) => {
@@ -42,8 +43,12 @@ export default function Pin(props) {
     });
   }, [image]);
 
+  const openPinScreen = () => {
+    navigation.navigate("PinScreen", { id }); // navigate to PinScreen with a pin object passed as a parameter
+  };
+
   return (
-    <View style={styles.pin}>
+    <Pressable style={styles.pin} onPress={openPinScreen}>
       <TouchableWithoutFeedback
         onLongPress={handleLongPress}
         onPress={handlePress}
@@ -68,7 +73,7 @@ export default function Pin(props) {
         )}
       </TouchableWithoutFeedback>
       <Text style={styles.title}>{showIcons ? title : truncate(title)}</Text>
-    </View>
+    </Pressable>
   );
 }
 
