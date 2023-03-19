@@ -12,9 +12,11 @@ import CustomButton from "../../components/CustomButton";
 import SocialSignInButtons from "../../components/SocialSignInButtons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
+import { useAuth } from "../../context/auth";
 
 const SignUp = () => {
   const router = useRouter();
+  const { signIn } = useAuth();
 
   const colorScheme = useColorScheme();
   const [email, setEmail] = useState("");
@@ -25,7 +27,8 @@ const SignUp = () => {
     setIsReveal(!isReveal);
   };
   const onLoginPressed = async () => {
-    router.replace("/ProfileTab");
+    // router.replace("/ProfileTab");
+    signIn(email, password);
   };
 
   const onSignUpPress = () => {
@@ -34,7 +37,10 @@ const SignUp = () => {
 
   return (
     <SafeAreaView>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+      >
         <View style={styles.root}>
           <Text style={styles.title}>Log in to your account</Text>
 

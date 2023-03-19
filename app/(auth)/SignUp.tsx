@@ -13,9 +13,11 @@ import CustomButton from "../../components/CustomButton";
 import SocialSignInButtons from "../../components/SocialSignInButtons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
+import { useAuth } from "../../context/auth";
 
 const SignUp = () => {
   const router = useRouter();
+  const { signUp } = useAuth();
 
   const colorScheme = useColorScheme();
   const [name, setName] = useState("");
@@ -27,7 +29,7 @@ const SignUp = () => {
     setIsReveal(!isReveal);
   };
   const onRegisterPressed = async () => {
-    console.warn("register");
+    signUp(email, password);
   };
 
   const onSignInPress = () => {
