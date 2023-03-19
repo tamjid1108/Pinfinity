@@ -50,6 +50,7 @@ const AutoScrollView = ({ images }) => {
 const styles = StyleSheet.create({
   container: {
     marginTop: 10,
+    height: 450,
   },
   scrollViewContent: {
     flexGrow: 1,
