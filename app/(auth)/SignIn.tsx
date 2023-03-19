@@ -1,5 +1,4 @@
 import {
-  Pressable,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
@@ -18,7 +17,6 @@ const SignUp = () => {
   const router = useRouter();
 
   const colorScheme = useColorScheme();
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isReveal, setIsReveal] = useState(false);
@@ -26,39 +24,19 @@ const SignUp = () => {
   const onEye = () => {
     setIsReveal(!isReveal);
   };
-  const onRegisterPressed = async () => {
-    console.warn("register");
+  const onLoginPressed = async () => {
+    router.replace("/ProfileTab");
   };
 
-  const onSignInPress = () => {
-    router.push("/SignIn");
+  const onSignUpPress = () => {
+    router.replace("/SignUp");
   };
 
-  const onTermsOfUsePressed = () => {
-    console.warn("terms of use");
-  };
-
-  const onPrivacyPressed = () => {
-    console.warn("privacy");
-  };
   return (
     <SafeAreaView>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.root}>
-          <Text style={styles.title}>Create an account</Text>
-
-          <View style={styles.container}>
-            {/* <Text style={styles.label}>Name</Text> */}
-            <TextInput
-              value={name}
-              onChangeText={setName}
-              placeholder="Full name"
-              placeholderTextColor={
-                Colors[colorScheme ?? "light"].inputPlaceholder
-              }
-              style={styles.input}
-            />
-          </View>
+          <Text style={styles.title}>Log in to your account</Text>
 
           <View style={styles.container}>
             {/* <Text style={styles.label}>Email</Text> */}
@@ -97,31 +75,21 @@ const SignUp = () => {
 
           <View style={styles.buttonsContainer}>
             <CustomButton
-              text="Register"
-              onPress={onRegisterPressed}
+              text="Log in"
+              onPress={onLoginPressed}
               bgColor="#d10000"
               fgColor="white"
               width="50%"
             />
           </View>
-          <Text style={styles.text}>
-            By registering, you confirm that you accept our{" "}
-            <Text style={styles.link} onPress={onTermsOfUsePressed}>
-              Terms of Use
-            </Text>{" "}
-            and{" "}
-            <Text style={styles.link} onPress={onPrivacyPressed}>
-              Privacy Policy
-            </Text>
-          </Text>
 
           <View style={styles.buttonsContainer}>
             <SocialSignInButtons />
           </View>
 
           <CustomButton
-            text="Have an account? Sign in"
-            onPress={onSignInPress}
+            text="Don't have an account? Create one"
+            onPress={onSignUpPress}
             textSize={16}
           />
         </View>
@@ -152,7 +120,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     margin: 10,
-    marginBottom: 40,
+    marginBottom: 100,
   },
   label: {
     fontSize: 18,

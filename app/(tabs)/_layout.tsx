@@ -53,7 +53,7 @@ export default function TabLayout() {
         options={{
           title: "Search",
           tabBarIcon: ({ color }) => (
-            <Feather name="search" size={24} color={color} />
+            <Feather name="search" size={26} color={color} />
           ),
           headerShown: false,
         }}
