@@ -3,14 +3,17 @@ import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { View, Text } from "../../components/Themed";
 import * as ImagePicker from "expo-image-picker";
+import { Link, useNavigation } from "expo-router";
 
-export default function NewPinTab() {
+export default function PickImage() {
   const [image, setImage] = useState(null);
   const [ratio, setRatio] = useState(1);
 
   const onClose = () => {
     setImage(null);
   };
+
+  const navigation = useNavigation();
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -32,14 +35,33 @@ export default function NewPinTab() {
       {image ? (
         <>
           <View style={styles.container}>
-            <TouchableOpacity style={styles.next_button} activeOpacity={0.9}>
+            {/* <Link
+              href={{ pathname: "/CreatePin", params: { image: image } }}
+              style={{ position: "absolute", top: 10, right: 10 }}
+              asChild
+            > */}
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("CreatePin", {
+                  image: image,
+                  ratio: ratio,
+                });
+              }}
+              style={styles.next_button}
+              activeOpacity={0.9}
+            >
               <Text style={styles.button_text}>Next</Text>
             </TouchableOpacity>
+            {/* </Link> */}
 
-            <View style={{ width: "60%" }}>
+            <View style={{ alignItems: "center", width: "100%" }}>
               <Image
                 source={{ uri: image }}
-                style={[styles.preview, { aspectRatio: ratio }]}
+                style={[
+                  styles.preview,
+                  ratio >= 1 ? { width: "80%" } : { height: 400 },
+                  { aspectRatio: ratio },
+                ]}
               />
               <Pressable onPress={onClose} style={styles.action_button}>
                 <Ionicons name="ios-close" size={24} color="white" />
@@ -85,8 +107,8 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     position: "absolute",
-    top: 10,
-    right: 10,
+    top: 15,
+    right: 15,
   },
   button_text: {
     color: "white",
@@ -95,16 +117,15 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   preview: {
-    width: "100%",
-    borderRadius: 20,
+    borderRadius: 10,
   },
   action_button: {
     position: "absolute",
     bottom: -20,
-    right: "50%",
+    left: "50%",
     backgroundColor: "#D10000",
     padding: 10,
     borderRadius: 50,
-    transform: [{ translateX: 23 }],
+    transform: [{ translateX: -21 }],
   },
 });
