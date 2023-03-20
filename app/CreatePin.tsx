@@ -16,7 +16,6 @@ import { useRouter } from "expo-router";
 import CustomButton from "../components/CustomButton";
 import { useRoute } from "@react-navigation/native";
 import Colors from "../constants/Colors";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const CreatePin = () => {
   const router = useRouter();
@@ -37,77 +36,75 @@ const CreatePin = () => {
   };
   return (
     <SafeAreaView>
-      <KeyboardAwareScrollView>
-        <View
-          style={{
-            alignItems: "flex-end",
-            marginTop: 10,
-            marginRight: 15,
-          }}
-        >
-          <Pressable onPress={goBack} style={styles.back_button}>
-            <Entypo name={"chevron-left"} size={24} color={"white"} />
-          </Pressable>
-          <CustomButton
-            text="Post"
-            onPress={onPost}
-            bgColor="#d10000"
-            fgColor="white"
-            textSize={18}
-            width="25%"
-          />
-        </View>
-        <View>
-          <Image
-            source={{ uri: image }}
-            style={[
-              ratio >= 1 ? { width: "70%" } : { height: 300 },
-              {
-                aspectRatio: ratio,
-                marginVertical: 40,
-                marginLeft: 30,
-                borderRadius: 10,
-              },
-            ]}
-          />
-        </View>
-        <Text
-          style={{
-            fontSize: 18,
-            marginLeft: 30,
-            marginTop: 20,
-          }}
-        >
-          Title
-        </Text>
-        <TextInput
-          value={title}
-          onChangeText={setTitle}
-          placeholder="Give your pin a title"
-          placeholderTextColor={Colors[colorScheme ?? "light"].inputPlaceholder}
-          style={[styles.input, { color: Colors[colorScheme ?? "light"].text }]}
+      <View
+        style={{
+          alignItems: "flex-end",
+          marginTop: 10,
+          marginRight: 15,
+        }}
+      >
+        <Pressable onPress={goBack} style={styles.back_button}>
+          <Entypo name={"chevron-left"} size={24} color={"white"} />
+        </Pressable>
+        <CustomButton
+          text="Post"
+          onPress={onPost}
+          bgColor="#d10000"
+          fgColor="white"
+          textSize={18}
+          width="25%"
         />
+      </View>
+      <View>
+        <Image
+          source={{ uri: image }}
+          style={[
+            ratio >= 1 ? { width: "70%" } : { height: 300 },
+            {
+              aspectRatio: ratio,
+              marginVertical: 40,
+              marginLeft: 30,
+              borderRadius: 10,
+            },
+          ]}
+        />
+      </View>
+      <Text
+        style={{
+          fontSize: 18,
+          marginLeft: 30,
+          marginTop: 20,
+        }}
+      >
+        Title
+      </Text>
+      <TextInput
+        value={title}
+        onChangeText={setTitle}
+        placeholder="Give your pin a title"
+        placeholderTextColor={Colors[colorScheme ?? "light"].inputPlaceholder}
+        style={[styles.input, { color: Colors[colorScheme ?? "light"].text }]}
+      />
 
-        <Text
-          style={{
-            fontSize: 18,
-            marginLeft: 30,
-            marginTop: 30,
-          }}
-        >
-          Description
-        </Text>
-        <TextInput
-          value={description}
-          multiline
-          onChangeText={setDescription}
-          maxLength={100}
-          placeholder="Say more about this pin"
-          placeholderTextColor={Colors[colorScheme ?? "light"].inputPlaceholder}
-          style={[styles.input, { color: Colors[colorScheme ?? "light"].text }]}
-        />
-        <View style={{ height: 300 }}></View>
-      </KeyboardAwareScrollView>
+      <Text
+        style={{
+          fontSize: 18,
+          marginLeft: 30,
+          marginTop: 30,
+        }}
+      >
+        Description
+      </Text>
+      <TextInput
+        value={description}
+        multiline
+        onChangeText={setDescription}
+        maxLength={100}
+        placeholder="Say more about this pin"
+        placeholderTextColor={Colors[colorScheme ?? "light"].inputPlaceholder}
+        style={[styles.input, { color: Colors[colorScheme ?? "light"].text }]}
+      />
+      <View style={{ height: 300 }}></View>
     </SafeAreaView>
   );
 };
