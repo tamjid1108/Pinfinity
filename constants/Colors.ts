@@ -10,6 +10,7 @@ export default {
     inputBackground: '#fff',
     tabIconDefault: '#ccc',
     tabIconSelected: tintColorLight,
+    modalBackground: '#959595',
   },
   dark: {
     text: '#fff',

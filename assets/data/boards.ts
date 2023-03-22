@@ -9,6 +9,19 @@ export default [
                     "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/pinterest/0.jpeg",
                 title: "notJust Dev Hoodie",
             },
+            {
+                id: "5",
+                image:
+                    "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/pinterest/5.jpeg",
+                title: "Hustle harder",
+            },
+            {
+                id: "8",
+                image:
+                    "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/pinterest/8.jpeg",
+                title:
+                    "Harley Davidson Sportster Iron 883 Custom ~ Rider & Helmet - ModifiedX",
+            },
         ]
     },
     {
@@ -33,7 +46,7 @@ export default [
                 id: "3",
                 image:
                     "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/pinterest/3.jpeg",
-                title: "",
+                title: "Home decor idea - workstation set up inspiration",
             },
             {
                 id: "6",

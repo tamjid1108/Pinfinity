@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -13,21 +14,29 @@ import CustomButton from "../../components/CustomButton";
 import SocialSignInButtons from "../../components/SocialSignInButtons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
+import { useAuth } from "../../context/auth";
 
 const SignUp = () => {
   const router = useRouter();
+  const { signUp } = useAuth();
 
   const colorScheme = useColorScheme();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isReveal, setIsReveal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const onEye = () => {
     setIsReveal(!isReveal);
   };
+
   const onRegisterPressed = async () => {
-    console.warn("register");
+    setIsLoading(true);
+    signUp(email, password);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
   };
 
   const onSignInPress = () => {
@@ -43,7 +52,10 @@ const SignUp = () => {
   };
   return (
     <SafeAreaView>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+      >
         <View style={styles.root}>
           <Text style={styles.title}>Create an account</Text>
 
@@ -95,6 +107,14 @@ const SignUp = () => {
             </TouchableOpacity>
           </View>
 
+          <View style={{ marginTop: 20 }}>
+            <ActivityIndicator
+              animating={isLoading}
+              color="#d10000"
+              size="large"
+            />
+          </View>
+
           <View style={styles.buttonsContainer}>
             <CustomButton
               text="Register"
@@ -141,7 +161,7 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     width: "100%",
     alignItems: "center",
-    marginTop: 30,
+    marginBottom: 20,
   },
   container: {
     width: "100%",
@@ -170,7 +190,7 @@ const styles = StyleSheet.create({
   },
   input: {
     width: "100%",
-    fontSize: 20,
+    fontSize: 18,
     borderRadius: 10,
     paddingHorizontal: 10,
     marginVertical: 5,
