@@ -46,7 +46,7 @@ export default function ProfileTab() {
         <View>
           <Image
             source={{
-              uri: "http://10.1.236.13:8000/user/get-user/1679413276630-pinfinity-JHX.jpeg",
+              uri: "https://media.licdn.com/dms/image/D5603AQE46ZBPlCLQEg/profile-displayphoto-shrink_800_800/0/1673192951205?e=2147483647&v=beta&t=6JLQp8jth0E43xMALYIHYEDLOBmqc83MBTaV9AIIPzo",
             }}
             style={styles.image}
           />

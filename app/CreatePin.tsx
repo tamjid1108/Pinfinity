@@ -81,6 +81,7 @@ const CreatePin = () => {
         </Text>
         <TextInput
           value={title}
+          cursorColor={Colors[colorScheme ?? "light"].tint}
           onChangeText={setTitle}
           placeholder="Give your pin a title"
           placeholderTextColor={Colors[colorScheme ?? "light"].inputPlaceholder}
@@ -98,6 +99,7 @@ const CreatePin = () => {
         </Text>
         <TextInput
           value={description}
+          cursorColor={Colors[colorScheme ?? "light"].tint}
           multiline
           onChangeText={setDescription}
           maxLength={100}
