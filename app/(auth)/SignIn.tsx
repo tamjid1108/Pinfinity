@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
@@ -22,13 +23,18 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isReveal, setIsReveal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const onEye = () => {
     setIsReveal(!isReveal);
   };
+
   const onLoginPressed = async () => {
-    // router.replace("/ProfileTab");
+    setIsLoading(true);
     signIn(email, password);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
   };
 
   const onSignUpPress = () => {
@@ -43,11 +49,11 @@ const SignUp = () => {
       >
         <View style={styles.root}>
           <Text style={styles.title}>Log in to your account</Text>
-
           <View style={styles.container}>
             {/* <Text style={styles.label}>Email</Text> */}
             <TextInput
               value={email}
+              underlineColorAndroid="transparent"
               placeholder="Email address"
               placeholderTextColor={
                 Colors[colorScheme ?? "light"].inputPlaceholder
@@ -56,14 +62,13 @@ const SignUp = () => {
               style={styles.input}
             />
           </View>
-
           <View style={styles.container}>
             {/* <Text style={styles.label}>Password</Text> */}
 
             <TextInput
               value={password}
               onChangeText={setPassword}
-              placeholder="Password (at least 8 characters)"
+              placeholder="Password"
               placeholderTextColor={
                 Colors[colorScheme ?? "light"].inputPlaceholder
               }
@@ -78,7 +83,13 @@ const SignUp = () => {
               />
             </TouchableOpacity>
           </View>
-
+          <View style={{ marginTop: 20 }}>
+            <ActivityIndicator
+              animating={isLoading}
+              color="#d10000"
+              size="large"
+            />
+          </View>
           <View style={styles.buttonsContainer}>
             <CustomButton
               text="Log in"
@@ -88,11 +99,9 @@ const SignUp = () => {
               width="50%"
             />
           </View>
-
           <View style={styles.buttonsContainer}>
             <SocialSignInButtons />
           </View>
-
           <CustomButton
             text="Don't have an account? Create one"
             onPress={onSignUpPress}
@@ -115,7 +124,7 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     width: "100%",
     alignItems: "center",
-    marginTop: 30,
+    marginBottom: 20,
   },
   container: {
     width: "100%",
@@ -144,7 +153,7 @@ const styles = StyleSheet.create({
   },
   input: {
     width: "100%",
-    fontSize: 20,
+    fontSize: 18,
     borderRadius: 10,
     paddingHorizontal: 10,
     marginVertical: 5,

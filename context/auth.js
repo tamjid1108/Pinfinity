@@ -4,10 +4,12 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  signOut,
 } from "firebase/auth";
 
 import { auth } from "../firebaseConfig";
 import { Alert } from "react-native";
+import { Logs } from "expo";
 
 const AuthContext = React.createContext(null);
 
@@ -44,7 +46,7 @@ export function Provider(props) {
   return (
     <AuthContext.Provider
       value={{
-        signIn: (email, password) => {
+        signIn: async (email, password) => {
           // try {
           //   signInWithEmailAndPassword(auth, email, password);
           //   setAuth(result.user);
@@ -54,6 +56,7 @@ export function Provider(props) {
           // }
           signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
+              console.log(userCredential);
               setAuth(userCredential.user);
             })
             .catch((error) => {
@@ -64,25 +67,38 @@ export function Provider(props) {
               );
             });
         },
-        signOut: async () => {
-          try {
-            await firebase.auth().signOut();
-            setAuth(null);
-          } catch (error) {
-            console.error(error);
-          }
+        signout: async () => {
+          // try {
+          //   await firebase.auth().signOut();
+          //   setAuth(null);
+          // } catch (error) {
+          //   console.error(error);
+          // }
+          signOut(auth)
+            .then(() => {
+              setAuth(null);
+            })
+            .catch((error) => {
+              const errorCode = error.code;
+              const errorMessage = error.message;
+              console.warn(
+                "Error code: " + errorCode + " Error message: " + errorMessage
+              );
+            });
         },
         signUp: async (email, password) => {
-          try {
-            const result = createUserWithEmailAndPassword(
-              auth,
-              email,
-              password
-            );
-            setAuth(result.user);
-          } catch (error) {
-            console.error(error);
-          }
+          createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+              console.log(userCredential);
+              setAuth(userCredential.user);
+            })
+            .catch((error) => {
+              const errorCode = error.code;
+              const errorMessage = error.message;
+              console.warn(
+                "Error code: " + errorCode + " Error message: " + errorMessage
+              );
+            });
         },
         user,
       }}
