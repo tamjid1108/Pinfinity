@@ -8,16 +8,17 @@ import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
 import { useColorScheme } from "react-native";
+import { Provider } from "../context/auth";
 
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
 } from "expo-router";
 
-export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: "(tabs)",
-};
+// export const unstable_settings = {
+//   // Ensure that reloading on `/modal` keeps a back button present.
+//   initialRouteName: "(auth)",
+// };
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
@@ -43,13 +44,16 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
   return (
-    <>
+    <Provider>
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
         <Stack>
+          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="PinScreen" options={{ headerShown: false }} />
+          <Stack.Screen name="ProfileUpdate" options={{ headerShown: false }} />
+          <Stack.Screen name="CreatePin" options={{ headerShown: false }} />
         </Stack>
       </ThemeProvider>
-    </>
+    </Provider>
   );
 }

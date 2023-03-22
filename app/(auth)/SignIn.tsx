@@ -1,6 +1,5 @@
 import {
   ActivityIndicator,
-  Pressable,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
@@ -14,44 +13,35 @@ import CustomButton from "../../components/CustomButton";
 import SocialSignInButtons from "../../components/SocialSignInButtons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
+
 import { useAuth } from "../../context/auth";
 
 const SignUp = () => {
   const router = useRouter();
-  const { signUp } = useAuth();
-
+  const { signIn } = useAuth();
 
   const colorScheme = useColorScheme();
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isReveal, setIsReveal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-
   const onEye = () => {
     setIsReveal(!isReveal);
   };
-
-  const onRegisterPressed = async () => {
+  
+  const onLoginPressed = async () => {
     setIsLoading(true);
-    signUp(email, password);
+    signIn(email, password);
     setTimeout(() => {
       setIsLoading(false);
     }, 1000);
   };
 
-  const onSignInPress = () => {
-    router.push("/SignIn");
+  const onSignUpPress = () => {
+    router.replace("/SignUp");
   };
 
-  const onTermsOfUsePressed = () => {
-    console.warn("terms of use");
-  };
-
-  const onPrivacyPressed = () => {
-    console.warn("privacy");
-  };
   return (
     <SafeAreaView>
       <ScrollView
@@ -59,25 +49,13 @@ const SignUp = () => {
         keyboardShouldPersistTaps="handled"
       >
         <View style={styles.root}>
-          <Text style={styles.title}>Create an account</Text>
-
-          <View style={styles.container}>
-            {/* <Text style={styles.label}>Name</Text> */}
-            <TextInput
-              value={name}
-              onChangeText={setName}
-              placeholder="Full name"
-              placeholderTextColor={
-                Colors[colorScheme ?? "light"].inputPlaceholder
-              }
-              style={styles.input}
-            />
-          </View>
-
+          <Text style={styles.title}>Log in to your account</Text>
+          
           <View style={styles.container}>
             {/* <Text style={styles.label}>Email</Text> */}
             <TextInput
               value={email}
+              underlineColorAndroid="transparent"
               placeholder="Email address"
               placeholderTextColor={
                 Colors[colorScheme ?? "light"].inputPlaceholder
@@ -93,7 +71,7 @@ const SignUp = () => {
             <TextInput
               value={password}
               onChangeText={setPassword}
-              placeholder="Password (at least 8 characters)"
+              placeholder="Password"
               placeholderTextColor={
                 Colors[colorScheme ?? "light"].inputPlaceholder
               }
@@ -116,33 +94,24 @@ const SignUp = () => {
               size="large"
             />
           </View>
+
           <View style={styles.buttonsContainer}>
             <CustomButton
-              text="Register"
-              onPress={onRegisterPressed}
+              text="Log in"
+              onPress={onLoginPressed}
               bgColor="#d10000"
               fgColor="white"
               width="50%"
             />
           </View>
-          <Text style={styles.text}>
-            By registering, you confirm that you accept our{" "}
-            <Text style={styles.link} onPress={onTermsOfUsePressed}>
-              Terms of Use
-            </Text>{" "}
-            and{" "}
-            <Text style={styles.link} onPress={onPrivacyPressed}>
-              Privacy Policy
-            </Text>
-          </Text>
 
           <View style={styles.buttonsContainer}>
             <SocialSignInButtons />
           </View>
 
           <CustomButton
-            text="Have an account? Sign in"
-            onPress={onSignInPress}
+            text="Don't have an account? Create one"
+            onPress={onSignUpPress}
             textSize={16}
           />
         </View>
@@ -162,7 +131,9 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     width: "100%",
     alignItems: "center",
+
     marginBottom: 20,
+
   },
   container: {
     width: "100%",
@@ -173,7 +144,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     margin: 10,
-    marginBottom: 40,
+    marginBottom: 100,
   },
   label: {
     fontSize: 18,

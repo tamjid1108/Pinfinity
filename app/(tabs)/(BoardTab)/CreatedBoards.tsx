@@ -1,12 +1,25 @@
-import { FlatList, ScrollView, StyleSheet } from "react-native";
+import { FlatList, ScrollView, StyleSheet, Pressable } from "react-native";
 import React from "react";
-import { View, Text } from "../../components/Themed";
-import BoardPreview from "../../components/BoardPreview";
-import boards from "../../assets/data/boards";
+import { View, Text } from "../../../components/Themed";
+import BoardPreview from "../../../components/BoardPreview";
+import boards from "../../../assets/data/boards";
+import { useNavigation } from "@react-navigation/native";
 
-const BoardTab = () => {
+const CreatedBoards = () => {
+  const navigation = useNavigation();
   const renderItem = (board) => {
-    return <BoardPreview board={board.item} />;
+    return (
+      <Pressable
+        onPress={() => {
+          navigation.navigate("IndividualBoard", { board: board.item });
+        }}
+      >
+        {/* <Pressable> */}
+        <BoardPreview board={board.item} />
+      </Pressable>
+
+      // </Pressable>
+    );
   };
 
   return (
@@ -26,7 +39,7 @@ const BoardTab = () => {
   );
 };
 
-export default BoardTab;
+export default CreatedBoards;
 
 const styles = StyleSheet.create({
   container: {

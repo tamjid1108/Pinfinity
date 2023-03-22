@@ -35,8 +35,8 @@ const PinScreen = () => {
   }
 
   return (
-    <SafeAreaView style={{ backgroundColor: "black" }}>
-      <StatusBar style="light" />
+    <SafeAreaView>
+      <StatusBar />
       <View style={styles.root}>
         <Image
           source={{ uri: pin.image }}

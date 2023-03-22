@@ -4,9 +4,6 @@ import { Pressable, useColorScheme } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import Colors from "../../constants/Colors";
 
-/**
- * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
- */
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>["name"];
   color: string;
@@ -53,7 +50,7 @@ export default function TabLayout() {
         options={{
           title: "Search",
           tabBarIcon: ({ color }) => (
-            <Feather name="search" size={24} color={color} />
+            <Feather name="search" size={26} color={color} />
           ),
           headerShown: false,
         }}
@@ -68,7 +65,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="BoardTab"
+        name="(BoardTab)"
         options={{
           title: "Your boards",
           tabBarIcon: ({ color }) => (
