@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-import { StyleSheet, Image, Pressable, ScrollView } from "react-native";
-=======
 import {
   StyleSheet,
   Image,
@@ -9,8 +6,7 @@ import {
   useColorScheme,
   TouchableOpacity,
 } from "react-native";
-import { Feather, SimpleLineIcons } from "@expo/vector-icons";
->>>>>>> 252b6c2df5478004fba0f5f50787f0bbae821be6
+import { SimpleLineIcons } from "@expo/vector-icons";
 import { Text, View } from "../../components/Themed";
 import MasonryList from "../../components/MasonryList";
 import pins from "../../assets/data/pins";
@@ -19,14 +15,20 @@ import { useState } from "react";
 import { BottomSheet } from "react-native-btr";
 import CustomButton from "../../components/CustomButton";
 import { useAuth } from "../../context/auth";
+import { useNavigation } from "@react-navigation/native";
 
 export default function ProfileTab() {
+  const navigator = useNavigation();
   const colorScheme = useColorScheme();
   const { signout } = useAuth();
 
   const [visible, setVisible] = useState(false);
   const toggleBottomNavigationView = () => {
     setVisible(!visible);
+  };
+
+  const openEditProfile = () => {
+    navigator.navigate("ProfileUpdate");
   };
 
   return (
@@ -44,7 +46,7 @@ export default function ProfileTab() {
         <View>
           <Image
             source={{
-              uri: "https://media.licdn.com/dms/image/D5603AQE46ZBPlCLQEg/profile-displayphoto-shrink_800_800/0/1673192951205?e=2147483647&v=beta&t=6JLQp8jth0E43xMALYIHYEDLOBmqc83MBTaV9AIIPzo",
+              uri: "http://10.1.236.13:8000/user/get-user/1679413276630-pinfinity-JHX.jpeg",
             }}
             style={styles.image}
           />
@@ -82,7 +84,7 @@ export default function ProfileTab() {
               marginBottom: 20,
             }}
           >
-            <TouchableOpacity>
+            <TouchableOpacity onPress={openEditProfile}>
               <Text style={styles.settings_text}>Edit public profile</Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -134,8 +136,6 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
     borderRadius: 100,
   },
-<<<<<<< HEAD
-=======
   action_button: {
     position: "absolute",
     bottom: 10,
@@ -153,7 +153,6 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
     alignItems: "center",
     width: "100%",
-    height: 250,
     padding: 20,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
@@ -163,5 +162,4 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     padding: 10,
   },
->>>>>>> 252b6c2df5478004fba0f5f50787f0bbae821be6
 });
