@@ -68,7 +68,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="BoardTab"
+        name="(BoardTab)"
         options={{
           title: "Your boards",
           tabBarIcon: ({ color }) => (
