@@ -44,15 +44,23 @@ export default function ProfileTab() {
             }}
             style={styles.image}
           />
-          <Pressable style={styles.action_button}>
-            <Feather name="edit-2" size={24} color="white" />
-          </Pressable>
         </View>
 
         <Text style={styles.name}>Tamjid Logan</Text>
         <Text style={styles.subtitle}>@tam_11</Text>
 
-        <Text style={styles.subtitle}>123 followers | 101 following</Text>
+        <View style={styles.info}>
+          <Text style={styles.info_text}>{"123\nFollowers"}</Text>
+          <Text style={styles.info_text}>{"10\nPins"}</Text>
+          <Text style={styles.info_text}>{"101\nFollowing"}</Text>
+        </View>
+        <View style={{ width: "100%", marginBottom: 20 }}>
+          <Text style={styles.title}>About</Text>
+          <Text style={styles.subtitle}>If not now, when?</Text>
+          <Text style={styles.subtitle}>
+            Keep calm and sip a glass of wine 🍷
+          </Text>
+        </View>
       </View>
       <View>
         <Text style={styles.title}>Your pins, right here!</Text>
@@ -111,12 +119,29 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    paddingVertical: 20,
+    paddingVertical: 10,
   },
+  info: {
+    marginVertical: 20,
+    flexDirection: "row",
+    backgroundColor: "#d10000",
+    justifyContent: "space-between",
+    paddingVertical: 20,
+    borderRadius: 10,
+  },
+  info_text: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginHorizontal: 25,
+  },
+
   name: {
     fontSize: 24,
     fontWeight: "bold",
-    margin: 20,
+    marginTop: 20,
+    marginBottom: 5,
   },
   title: {
     fontSize: 20,
@@ -126,6 +151,7 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 18,
     fontWeight: "600",
+    marginHorizontal: 20,
     opacity: 0.7,
   },
   image: {
@@ -150,7 +176,6 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
     alignItems: "center",
     width: "100%",
-    height: 250,
     padding: 20,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
