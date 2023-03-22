@@ -1,5 +1,4 @@
 import { StyleSheet, Image, Pressable, ScrollView } from "react-native";
-import { Feather } from "@expo/vector-icons";
 import { Text, View } from "../../components/Themed";
 import MasonryList from "../../components/MasonryList";
 import pins from "../../assets/data/pins";
@@ -15,9 +14,6 @@ export default function ProfileTab() {
             }}
             style={styles.image}
           />
-          <Pressable style={styles.action_button}>
-            <Feather name="edit-2" size={24} color="white" />
-          </Pressable>
         </View>
 
         <Text style={styles.name}>Tamjid Logan</Text>
@@ -59,13 +55,5 @@ const styles = StyleSheet.create({
     width: 200,
     aspectRatio: 1,
     borderRadius: 100,
-  },
-  action_button: {
-    position: "absolute",
-    bottom: 10,
-    right: 10,
-    backgroundColor: "#D10000",
-    padding: 10,
-    borderRadius: 50,
   },
 });

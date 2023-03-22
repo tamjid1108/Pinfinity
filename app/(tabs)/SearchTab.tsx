@@ -1,11 +1,11 @@
 import { Text, View } from "../../components/Themed";
 import { useState } from "react";
 import AutoScrollView from "../../components/AutoScrollView";
-import { TextInput, StyleSheet, useColorScheme } from "react-native";
+import { StyleSheet, useColorScheme } from "react-native";
 import { SearchBar } from "react-native-elements";
 import { Feather } from "@expo/vector-icons";
 import Colors from "../../constants/Colors";
-import { Image, ScrollView, ImageBackground } from "react-native";
+import { ScrollView, ImageBackground } from "react-native";
 
 // const travel = require("../../assets/data/travel");
 
