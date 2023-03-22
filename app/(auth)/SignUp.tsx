@@ -20,12 +20,14 @@ const SignUp = () => {
   const router = useRouter();
   const { signUp } = useAuth();
 
+
   const colorScheme = useColorScheme();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isReveal, setIsReveal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
 
   const onEye = () => {
     setIsReveal(!isReveal);
@@ -114,7 +116,6 @@ const SignUp = () => {
               size="large"
             />
           </View>
-
           <View style={styles.buttonsContainer}>
             <CustomButton
               text="Register"

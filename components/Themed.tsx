@@ -58,13 +58,14 @@ export function TextInput(props: TextInputProps) {
     { light: lightColor, dark: darkColor },
     "inputBackground"
   );
-
   const colorScheme = useColorScheme();
+
   const color = useThemeColor({ light: lightColor, dark: darkColor }, "text");
 
   return (
     <DefaultTextInput
       cursorColor={Colors[colorScheme ?? "light"].tint}
+
       style={[{ backgroundColor }, { color }, style]}
       {...otherProps}
     />

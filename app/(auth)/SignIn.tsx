@@ -13,6 +13,7 @@ import CustomButton from "../../components/CustomButton";
 import SocialSignInButtons from "../../components/SocialSignInButtons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
+
 import { useAuth } from "../../context/auth";
 
 const SignUp = () => {
@@ -28,7 +29,7 @@ const SignUp = () => {
   const onEye = () => {
     setIsReveal(!isReveal);
   };
-
+  
   const onLoginPressed = async () => {
     setIsLoading(true);
     signIn(email, password);
@@ -49,6 +50,7 @@ const SignUp = () => {
       >
         <View style={styles.root}>
           <Text style={styles.title}>Log in to your account</Text>
+          
           <View style={styles.container}>
             {/* <Text style={styles.label}>Email</Text> */}
             <TextInput
@@ -62,6 +64,7 @@ const SignUp = () => {
               style={styles.input}
             />
           </View>
+
           <View style={styles.container}>
             {/* <Text style={styles.label}>Password</Text> */}
 
@@ -83,6 +86,7 @@ const SignUp = () => {
               />
             </TouchableOpacity>
           </View>
+
           <View style={{ marginTop: 20 }}>
             <ActivityIndicator
               animating={isLoading}
@@ -90,6 +94,7 @@ const SignUp = () => {
               size="large"
             />
           </View>
+
           <View style={styles.buttonsContainer}>
             <CustomButton
               text="Log in"
@@ -99,9 +104,11 @@ const SignUp = () => {
               width="50%"
             />
           </View>
+
           <View style={styles.buttonsContainer}>
             <SocialSignInButtons />
           </View>
+
           <CustomButton
             text="Don't have an account? Create one"
             onPress={onSignUpPress}
@@ -124,7 +131,9 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     width: "100%",
     alignItems: "center",
+
     marginBottom: 20,
+
   },
   container: {
     width: "100%",
