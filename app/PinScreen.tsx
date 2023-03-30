@@ -16,6 +16,7 @@ import { Text, View } from "../components/Themed";
 import { Entypo } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import CustomButton from "../components/CustomButton";
+import PinToBoard from "../components/PinToBoard";
 
 const PinScreen = () => {
   const [ratio, setRatio] = useState(1);
@@ -26,6 +27,11 @@ const PinScreen = () => {
 
   const pinId = route.params?.id;
   const pin = pins.find((p) => p.id === pinId);
+
+  const [visible, setVisible] = useState(false);
+  const toggleBottomNavigationView = () => {
+    setVisible(!visible);
+  };
 
   useEffect(() => {
     Image.getSize(pin.image, (width, height) => {
@@ -79,8 +85,8 @@ const PinScreen = () => {
           </View>
           <View style={styles.buttonsContainer}>
             <CustomButton
-              text="Pin"
-              onPress={onPinPressed}
+              text="Save"
+              onPress={toggleBottomNavigationView}
               bgColor="#d10000"
               fgColor="white"
               width="30%"
@@ -94,6 +100,7 @@ const PinScreen = () => {
           <Entypo name={"chevron-left"} size={24} color={"white"} />
         </Pressable>
       </ScrollView>
+      <PinToBoard visible={visible} toggle={toggleBottomNavigationView} />
     </SafeAreaView>
   );
 };

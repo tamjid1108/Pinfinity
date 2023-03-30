@@ -36,7 +36,7 @@ const CreatePin = () => {
   };
   return (
     <SafeAreaView>
-      <ScrollView>
+      <ScrollView keyboardShouldPersistTaps="always">
         <View
           style={{
             alignItems: "flex-end",
