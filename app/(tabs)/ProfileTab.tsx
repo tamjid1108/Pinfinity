@@ -129,6 +129,7 @@ const styles = StyleSheet.create({
   },
   info: {
     marginVertical: 20,
+    width: "90%",
     flexDirection: "row",
     backgroundColor: "#d10000",
     justifyContent: "space-between",
@@ -140,7 +141,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     textAlign: "center",
-    marginHorizontal: 25,
+    marginHorizontal: 20,
   },
 
   name: {
