@@ -6,10 +6,8 @@ import {
   createUserWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-
 import { auth } from "../firebaseConfig";
-import { Alert } from "react-native";
-import { Logs } from "expo";
+import profile from "../backend/profile";
 
 const AuthContext = React.createContext(null);
 
@@ -56,7 +54,7 @@ export function Provider(props) {
           // }
           signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
-              console.log(userCredential);
+              // console.log(userCredential);
               setAuth(userCredential.user);
             })
             .catch((error) => {
@@ -86,11 +84,35 @@ export function Provider(props) {
               );
             });
         },
-        signUp: async (email, password) => {
+        signUp: async (fullname, email, password) => {
           createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
-              console.log(userCredential);
+              // console.log(userCredential);
               setAuth(userCredential.user);
+
+              const name = fullname.split(" ")[0];
+              const surname = fullname.split(" ")[1] || "";
+              const username = "_" + fullname.split(" ")[0].toLowerCase();
+
+              let formData = new FormData();
+              formData.append("userid", userCredential.user.uid);
+              formData.append("firstname", name);
+              formData.append("surname", surname);
+              formData.append("username", username);
+              formData.append("about", "Am a pinfinity user");
+
+              profile
+                .post("/add-user", formData, {
+                  headers: {
+                    "Content-Type": "multipart/form-data",
+                  },
+                })
+                .then((response) => {
+                  console.log("User created");
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
             })
             .catch((error) => {
               const errorCode = error.code;

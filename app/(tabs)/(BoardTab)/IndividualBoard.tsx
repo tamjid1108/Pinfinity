@@ -67,7 +67,7 @@ const IndividualBoard = () => {
           {board.title}
         </Text>
       </View>
-      <MasonryList pins={board.pins} />
+      {/* <MasonryList pins={board.pins} /> */}
 
       <BottomSheet
         visible={visible}

@@ -3,29 +3,53 @@ import { Text, View } from "../components/Themed";
 import {
   StyleSheet,
   Image,
-  TouchableOpacity,
   ScrollView,
   Pressable,
   useColorScheme,
   TextInput,
+  ActivityIndicator,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import React, { useState } from "react";
-import { useNavigation } from "@react-navigation/native";
+import React, { useState, useEffect } from "react";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { Entypo } from "@expo/vector-icons";
 import Colors from "../constants/Colors";
 import { Feather } from "@expo/vector-icons";
 import CustomButton from "../components/CustomButton";
+import { useAuth } from "../context/auth";
+import profile from "../backend/profile";
 
 const ProfileUpdate = () => {
+  const route = useRoute();
   const [image, setImage] = useState(null);
-  const [aboutLength, setAboutLength] = useState(0);
-  const [firstname, setFirstname] = useState("HappySoul");
-  const [surname, setSurname] = useState("_");
-  const [username, setUsername] = useState("happysoul");
-  const [about, setAbout] = useState("");
+
+  const [firstname, setFirstname] = useState(route.params?.firstname);
+  const [surname, setSurname] = useState(route.params?.surname);
+  const [username, setUsername] = useState(route.params?.username);
+  const [about, setAbout] = useState(route.params?.about);
+  const [aboutLength, setAboutLength] = useState(route.params?.about.length);
+  const [profileUri, setProfileUri] = useState(route.params?.profileUri);
+
+  const [isLoading, setIsLoading] = useState(false);
+
   const navigation = useNavigation();
   const colorScheme = useColorScheme();
+  const { user } = useAuth();
+
+  // useEffect(() => {
+  //   profile
+  //     .get("/get-user/" + user.uid)
+  //     .then((response) => {
+  //       setFirstname(response.data.firstname);
+  //       setSurname(response.data.surname);
+  //       setUsername(response.data.username);
+  //       setAbout(response.data.about);
+  //       setProfileUri(response.data.profileUri);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, []);
 
   const makeChanges = (value) => {
     setAbout(value);
@@ -38,7 +62,7 @@ const ProfileUpdate = () => {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       allowsMultipleSelection: false,
-      quality: 1,
+      quality: 0.5,
     });
 
     if (!result.canceled) {
@@ -51,7 +75,39 @@ const ProfileUpdate = () => {
   };
 
   const onUpdatePressed = () => {
-    console.warn("Update pressed");
+    let formData = new FormData();
+    formData.append("firstname", firstname);
+    formData.append("surname", surname);
+    formData.append("username", username);
+    formData.append("about", about);
+    if (image != null) {
+      formData.append("profile", {
+        uri: image,
+        type: "image/jpeg",
+        name: user.uid + ".jpeg",
+      });
+    }
+
+    // console.log(image);
+    // console.log(image.uri);
+    // console.log(image.type);
+    // console.log(image.fileName);
+
+    setIsLoading(true);
+    profile
+      .put("/update-user/" + user.uid, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        // console.log("User updated");
+        setIsLoading(false);
+        navigation.goBack();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -66,11 +122,17 @@ const ProfileUpdate = () => {
                 image
                   ? { uri: image }
                   : {
-                      uri: "https://media.licdn.com/dms/image/D5603AQE46ZBPlCLQEg/profile-displayphoto-shrink_800_800/0/1673192951205?e=2147483647&v=beta&t=6JLQp8jth0E43xMALYIHYEDLOBmqc83MBTaV9AIIPzo",
+                      uri: profileUri,
                     }
               }
               style={styles.image}
             />
+            {/* <Image
+                key={key}
+                source={{ uri }}
+                style={{ width: 100, height: 100 }}
+                onError={reloadImage}
+            /> */}
             <Pressable style={styles.edit_button} onPress={pickImage}>
               <Feather name="edit-2" size={24} color="white" />
             </Pressable>
@@ -117,7 +179,7 @@ const ProfileUpdate = () => {
             ]}
           />
 
-          <Text style={styles.input_title}>Username</Text>
+          <Text style={styles.input_title}>User name</Text>
           <TextInput
             value={username}
             onChangeText={setUsername}
@@ -156,6 +218,14 @@ const ProfileUpdate = () => {
           />
         </View>
 
+        <View>
+          <ActivityIndicator
+            animating={isLoading}
+            color="#d10000"
+            size="large"
+          />
+        </View>
+
         <View style={styles.buttonsContainer}>
           <CustomButton
             text="Update"
@@ -179,13 +249,14 @@ const styles = StyleSheet.create({
   },
   image: {
     width: 150,
+    height: 150,
     aspectRatio: 1,
     borderRadius: 100,
   },
   input_title: {
-    fontSize: 18,
+    fontSize: 17,
     marginLeft: 10,
-    marginTop: 20,
+    marginTop: 15,
   },
   action_button: {
     position: "absolute",
@@ -198,7 +269,7 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     padding: 20,
-    marginBottom: 40,
+    marginBottom: 20,
   },
   subtitle: {
     fontSize: 17,
@@ -235,7 +306,6 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     width: "100%",
     alignItems: "center",
-
     marginBottom: 20,
   },
 });

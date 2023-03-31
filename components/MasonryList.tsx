@@ -3,29 +3,21 @@ import React from "react";
 import Pin from "./Pin";
 import { View } from "./Themed";
 
-interface IMasonryList {
-  pins: {
-    id: string;
-    title: string;
-    image: string;
-  }[];
-}
-
-export default function MasonryList({ pins }: IMasonryList) {
+export default function MasonryList({ pins }) {
   return (
     <View style={styles.container}>
       <View style={{ flex: 1 }}>
         {pins
           .filter((pin, index) => index % 2 === 0)
           .map((pin) => (
-            <Pin pin={pin} key={pin.id} />
+            <Pin pin={pin} key={pin.pinid} />
           ))}
       </View>
       <View style={{ flex: 1 }}>
         {pins
           .filter((pin, index) => index % 2 === 1)
           .map((pin) => (
-            <Pin pin={pin} key={pin.id} />
+            <Pin pin={pin} key={pin.pinid} />
           ))}
       </View>
     </View>
