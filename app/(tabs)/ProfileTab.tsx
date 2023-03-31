@@ -46,7 +46,7 @@ export default function ProfileTab() {
         <View>
           <Image
             source={{
-              uri: "http://10.1.236.13:8000/user/get-user/1679413276630-pinfinity-JHX.jpeg",
+              uri: "https://media.licdn.com/dms/image/D5603AQE46ZBPlCLQEg/profile-displayphoto-shrink_800_800/0/1673192951205?e=2147483647&v=beta&t=6JLQp8jth0E43xMALYIHYEDLOBmqc83MBTaV9AIIPzo",
             }}
             style={styles.image}
           />
@@ -129,6 +129,7 @@ const styles = StyleSheet.create({
   },
   info: {
     marginVertical: 20,
+    width: "90%",
     flexDirection: "row",
     backgroundColor: "#d10000",
     justifyContent: "space-between",
@@ -140,7 +141,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     textAlign: "center",
-    marginHorizontal: 25,
+    marginHorizontal: 20,
   },
 
   name: {
