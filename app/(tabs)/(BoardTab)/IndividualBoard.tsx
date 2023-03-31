@@ -105,14 +105,16 @@ const IndividualBoard = () => {
             <CustomButton
               text="Delete"
               onPress={onDeletePressed}
-              bgColor="#d10000"
+              bgColor="#656565"
               fgColor="white"
+              textSize={18}
               width="40%"
             />
             <CustomButton
               text="Save"
               onPress={onSavePressed}
               bgColor="#d10000"
+              textSize={18}
               fgColor="white"
               width="40%"
             />

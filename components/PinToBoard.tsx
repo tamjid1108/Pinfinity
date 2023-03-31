@@ -150,13 +150,6 @@ const PinToBoard = (props) => {
           {createBoard ? (
             <>
               <CustomButton
-                text="Create"
-                onPress={onCreatePressed}
-                bgColor="#d10000"
-                fgColor="white"
-                width="30%"
-              />
-              <CustomButton
                 text="Back"
                 onPress={() => {
                   setCreatBoard(false);
@@ -164,6 +157,14 @@ const PinToBoard = (props) => {
                 bgColor="#656565"
                 fgColor="white"
                 textSize={18}
+                width="30%"
+              />
+              <CustomButton
+                text="Create"
+                onPress={onCreatePressed}
+                bgColor="#d10000"
+                textSize={18}
+                fgColor="white"
                 width="30%"
               />
             </>
