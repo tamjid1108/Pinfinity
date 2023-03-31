@@ -35,16 +35,16 @@ export default function Pin(props) {
 
   const onPin = () => {};
 
-  const { id, title, image } = props.pin;
+  const { pinid, pinUri, title, description } = props.pin;
 
   useEffect(() => {
-    Image.getSize(image, (width, height) => {
+    Image.getSize(pinUri, (width, height) => {
       setRatio(width / height);
     });
-  }, [image]);
+  }, [pinUri]);
 
   const openPinScreen = () => {
-    navigation.navigate("PinScreen", { id }); // navigate to PinScreen with a pin object passed as a parameter
+    navigation.navigate("PinScreen", { pinid, pinUri, title, description }); // navigate to PinScreen with a pin object passed as a parameter
   };
 
   return (
@@ -57,7 +57,7 @@ export default function Pin(props) {
         {showIcons ? (
           <View>
             <Image
-              source={{ uri: image }}
+              source={{ uri: pinUri }}
               style={[styles.image, { aspectRatio: ratio }]}
               blurRadius={30}
             />
@@ -67,7 +67,7 @@ export default function Pin(props) {
           </View>
         ) : (
           <Image
-            source={{ uri: image }}
+            source={{ uri: pinUri }}
             style={[styles.image, { aspectRatio: ratio }]}
           />
         )}

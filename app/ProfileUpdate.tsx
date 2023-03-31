@@ -7,10 +7,11 @@ import {
   Pressable,
   useColorScheme,
   TextInput,
+  ActivityIndicator,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import React, { useState, useEffect } from "react";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { Entypo } from "@expo/vector-icons";
 import Colors from "../constants/Colors";
 import { Feather } from "@expo/vector-icons";
@@ -19,29 +20,36 @@ import { useAuth } from "../context/auth";
 import profile from "../backend/profile";
 
 const ProfileUpdate = () => {
+  const route = useRoute();
   const [image, setImage] = useState(null);
-  const [aboutLength, setAboutLength] = useState(0);
-  const [firstname, setFirstname] = useState("HappySoul");
-  const [surname, setSurname] = useState("_");
-  const [username, setUsername] = useState("happysoul");
-  const [about, setAbout] = useState("");
+
+  const [firstname, setFirstname] = useState(route.params?.firstname);
+  const [surname, setSurname] = useState(route.params?.surname);
+  const [username, setUsername] = useState(route.params?.username);
+  const [about, setAbout] = useState(route.params?.about);
+  const [aboutLength, setAboutLength] = useState(route.params?.about.length);
+  const [profileUri, setProfileUri] = useState(route.params?.profileUri);
+
+  const [isLoading, setIsLoading] = useState(false);
+
   const navigation = useNavigation();
   const colorScheme = useColorScheme();
   const { user } = useAuth();
 
-  useEffect(() => {
-    profile
-      .get("/get-user/" + user.uid)
-      .then((response) => {
-        setFirstname(response.data.firstname);
-        setSurname(response.data.surname);
-        setUsername(response.data.username);
-        setAbout(response.data.about);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   profile
+  //     .get("/get-user/" + user.uid)
+  //     .then((response) => {
+  //       setFirstname(response.data.firstname);
+  //       setSurname(response.data.surname);
+  //       setUsername(response.data.username);
+  //       setAbout(response.data.about);
+  //       setProfileUri(response.data.profileUri);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, []);
 
   const makeChanges = (value) => {
     setAbout(value);
@@ -54,7 +62,7 @@ const ProfileUpdate = () => {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       allowsMultipleSelection: false,
-      quality: 1,
+      quality: 0.5,
     });
 
     if (!result.canceled) {
@@ -80,11 +88,12 @@ const ProfileUpdate = () => {
       });
     }
 
-    console.log(image);
+    // console.log(image);
     // console.log(image.uri);
     // console.log(image.type);
     // console.log(image.fileName);
 
+    setIsLoading(true);
     profile
       .put("/update-user/" + user.uid, formData, {
         headers: {
@@ -92,8 +101,9 @@ const ProfileUpdate = () => {
         },
       })
       .then((response) => {
-        console.log("User updated");
-        setImage(null);
+        // console.log("User updated");
+        setIsLoading(false);
+        navigation.goBack();
       })
       .catch((error) => {
         console.log(error);
@@ -112,12 +122,7 @@ const ProfileUpdate = () => {
                 image
                   ? { uri: image }
                   : {
-                      uri:
-                        "http://pinfinity.onrender.com/user/get-profile/" +
-                        user.uid +
-                        "/" +
-                        Date.now(),
-                      cache: "reload",
+                      uri: profileUri,
                     }
               }
               style={styles.image}
@@ -174,7 +179,7 @@ const ProfileUpdate = () => {
             ]}
           />
 
-          <Text style={styles.input_title}>Username</Text>
+          <Text style={styles.input_title}>User name</Text>
           <TextInput
             value={username}
             onChangeText={setUsername}
@@ -213,6 +218,14 @@ const ProfileUpdate = () => {
           />
         </View>
 
+        <View>
+          <ActivityIndicator
+            animating={isLoading}
+            color="#d10000"
+            size="large"
+          />
+        </View>
+
         <View style={styles.buttonsContainer}>
           <CustomButton
             text="Update"
@@ -241,9 +254,9 @@ const styles = StyleSheet.create({
     borderRadius: 100,
   },
   input_title: {
-    fontSize: 18,
+    fontSize: 17,
     marginLeft: 10,
-    marginTop: 20,
+    marginTop: 15,
   },
   action_button: {
     position: "absolute",
@@ -256,7 +269,7 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     padding: 20,
-    marginBottom: 40,
+    marginBottom: 20,
   },
   subtitle: {
     fontSize: 17,

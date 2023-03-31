@@ -7,8 +7,9 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   findNodeHandle,
+  ActivityIndicator,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { View, Text } from "../components/Themed";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Entypo } from "@expo/vector-icons";
@@ -16,10 +17,17 @@ import { useRouter } from "expo-router";
 import CustomButton from "../components/CustomButton";
 import { useRoute } from "@react-navigation/native";
 import Colors from "../constants/Colors";
+import pins from "../backend/pins";
+import { useAuth } from "../context/auth";
+
+import uuid from "react-native-uuid";
 
 const CreatePin = () => {
   const router = useRouter();
   const route = useRoute();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { user } = useAuth();
 
   const colorScheme = useColorScheme();
   const image = route.params?.image;
@@ -32,8 +40,42 @@ const CreatePin = () => {
     router.back();
   };
   const onPost = () => {
-    router.replace("/HomeTab");
+    const pinid = uuid.v4();
+    let formData = new FormData();
+    formData.append("pinid", pinid);
+    formData.append("userid", user.uid);
+    formData.append("title", title);
+    formData.append("description", description);
+    if (image != null) {
+      formData.append("pin", {
+        uri: image,
+        type: "image/jpeg",
+        name: user.uid + "-" + title + ".jpg",
+      });
+    }
+
+    // setIsLoading(true);
+    // setTimeout(() => {
+    //   setIsLoading(false);
+    // }, 1000);
+
+    setIsLoading(true);
+    pins
+      .post("/create-pin", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        router.replace("/HomeTab");
+        setIsLoading(false);
+        console.log("posted pin");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
+
   return (
     <SafeAreaView>
       <ScrollView>
@@ -47,14 +89,35 @@ const CreatePin = () => {
           <Pressable onPress={goBack} style={styles.back_button}>
             <Entypo name={"chevron-left"} size={24} color={"white"} />
           </Pressable>
-          <CustomButton
-            text="Post"
-            onPress={onPost}
-            bgColor="#d10000"
-            fgColor="white"
-            textSize={18}
-            width="25%"
-          />
+
+          {!isLoading ? (
+            <CustomButton
+              text="Post"
+              onPress={onPost}
+              bgColor="#d10000"
+              fgColor="white"
+              textSize={18}
+              width="25%"
+            />
+          ) : (
+            <View
+              style={{
+                paddingHorizontal: 28,
+                backgroundColor: "#d10000",
+                paddingTop: 7,
+                paddingBottom: 6,
+                marginTop: 9,
+                margin: 9,
+                borderRadius: 50,
+              }}
+            >
+              <ActivityIndicator
+                animating={isLoading}
+                color="#ffffff"
+                size="large"
+              />
+            </View>
+          )}
         </View>
         <View>
           <Image

@@ -9,41 +9,70 @@ import {
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { Text, View } from "../../components/Themed";
 import MasonryList from "../../components/MasonryList";
-import pins from "../../assets/data/pins";
+// import pins from "../../assets/data/pins";
 import Colors from "../../constants/Colors";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { BottomSheet } from "react-native-btr";
 import CustomButton from "../../components/CustomButton";
 import { useAuth } from "../../context/auth";
-import { useNavigation } from "@react-navigation/native";
+import {
+  useFocusEffect,
+  useIsFocused,
+  useNavigation,
+} from "@react-navigation/native";
 import profile from "../../backend/profile";
+import pins from "../../backend/pins";
 
 export default function ProfileTab() {
   const navigator = useNavigation();
+  const [mypins, setMyPins] = useState([]);
   const colorScheme = useColorScheme();
   const { signout, user } = useAuth();
 
-  const [userDetails, setUserDetails] = useState({});
-  const [uri, setUri] = useState(
-    "http://pinfinity.onrender.com/user/get-profile/" + user.uid + "/profile"
+  const isFocused = useIsFocused();
+
+  const [firstname, setFirstname] = useState("");
+  const [surname, setSurname] = useState("");
+  const [username, setUsername] = useState("");
+  const [about, setAbout] = useState("");
+  const [profileUri, setProfileUri] = useState(
+    "https://www.nicepng.com/png/full/136-1366211_group-of-10-guys-login-user-icon-png.png"
   );
 
-  useEffect(() => {
+  const fetchDetails = useCallback(() => {
     profile
       .get("/get-user/" + user.uid)
       .then((response) => {
-        setUserDetails(response.data);
-        setUri(
-          "http://pinfinity.onrender.com/user/get-profile/" +
-            user.uid +
-            "/" +
-            Date.now()
-        );
+        setFirstname(response.data.firstname);
+        setSurname(response.data.surname);
+        setUsername(response.data.username);
+        setAbout(response.data.about);
+        setProfileUri(response.data.profileUri);
       })
       .catch((error) => {
         console.log(error);
       });
-  });
+
+    pins
+      .get("/get-pins/" + user.uid)
+      .then((response) => {
+        // console.log(response.data);
+        setMyPins(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  useEffect(() => {
+    fetchDetails();
+  }, [fetchDetails]);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchDetails();
+    }, [fetchDetails])
+  );
 
   const [visible, setVisible] = useState(false);
   const toggleBottomNavigationView = () => {
@@ -51,7 +80,14 @@ export default function ProfileTab() {
   };
 
   const openEditProfile = () => {
-    navigator.navigate("ProfileUpdate");
+    setVisible(!visible);
+    navigator.navigate("ProfileUpdate", {
+      firstname,
+      surname,
+      username,
+      about,
+      profileUri,
+    });
   };
 
   return (
@@ -69,16 +105,16 @@ export default function ProfileTab() {
         <View>
           <Image
             source={{
-              uri: uri,
+              uri: profileUri,
             }}
             style={styles.image}
           />
         </View>
 
-        <Text style={styles.name}>
-          {userDetails.firstname + " " + userDetails.surname}
+        <Text style={styles.name}>{firstname + " " + surname}</Text>
+        <Text style={styles.subtitle}>
+          {username != "" ? "@" + username : ""}
         </Text>
-        <Text style={styles.subtitle}>@{userDetails.username}</Text>
 
         <View style={styles.info}>
           <Text style={styles.info_text}>{"123\nFollowers"}</Text>
@@ -87,12 +123,12 @@ export default function ProfileTab() {
         </View>
         <View style={{ width: "100%", marginBottom: 20 }}>
           <Text style={styles.title}>About</Text>
-          <Text style={styles.subtitle}>{userDetails.about}</Text>
+          <Text style={styles.subtitle}>{about}</Text>
         </View>
       </View>
       <View>
         <Text style={styles.title}>Your pins, right here!</Text>
-        <MasonryList pins={pins} />
+        <MasonryList pins={mypins} />
       </View>
       <BottomSheet
         visible={visible}
@@ -179,9 +215,8 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 18,
-    fontWeight: "600",
+    fontWeight: "400",
     marginHorizontal: 20,
-    opacity: 0.7,
   },
   image: {
     width: 200,

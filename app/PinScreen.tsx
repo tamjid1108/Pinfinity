@@ -24,14 +24,16 @@ const PinScreen = () => {
   const route = useRoute();
   const insets = useSafeAreaInsets();
 
-  const pinId = route.params?.id;
-  const pin = pins.find((p) => p.id === pinId);
+  const pinid = route.params?.pinid;
+  const pinUri = route.params?.pinUri;
+  const title = route.params?.title;
+  const description = route.params?.description;
 
   useEffect(() => {
-    Image.getSize(pin.image, (width, height) => {
+    Image.getSize(pinUri, (width, height) => {
       setRatio(width / height);
     });
-  }, [pin]);
+  }, [pinid]);
 
   const onPinPressed = () => {
     console.warn("pin it");
@@ -45,7 +47,7 @@ const PinScreen = () => {
     navigation.goBack();
   };
 
-  if (!pin) {
+  if (!pinid) {
     return <Text>Pin not found!</Text>;
   }
 
@@ -54,7 +56,7 @@ const PinScreen = () => {
       <ScrollView>
         <View style={styles.root}>
           <Image
-            source={{ uri: pin.image }}
+            source={{ uri: pinUri }}
             style={[styles.image, { aspectRatio: ratio }]}
           />
 
@@ -74,8 +76,8 @@ const PinScreen = () => {
               />
             </View>
 
-            <Text style={styles.pin_title}>{pin.title}</Text>
-            <Text style={styles.pin_subtitle}>{pin.description}</Text>
+            <Text style={styles.pin_title}>{title}</Text>
+            <Text style={styles.pin_subtitle}>{description}</Text>
           </View>
           <View style={styles.buttonsContainer}>
             <CustomButton
