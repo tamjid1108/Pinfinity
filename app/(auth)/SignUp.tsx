@@ -1,6 +1,5 @@
 import {
   ActivityIndicator,
-  Pressable,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
@@ -20,7 +19,6 @@ const SignUp = () => {
   const router = useRouter();
   const { signUp } = useAuth();
 
-
   const colorScheme = useColorScheme();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -28,14 +26,13 @@ const SignUp = () => {
   const [isReveal, setIsReveal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-
   const onEye = () => {
     setIsReveal(!isReveal);
   };
 
   const onRegisterPressed = async () => {
     setIsLoading(true);
-    signUp(email, password);
+    signUp(name, email, password);
     setTimeout(() => {
       setIsLoading(false);
     }, 1000);

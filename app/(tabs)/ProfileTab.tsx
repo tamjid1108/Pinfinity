@@ -11,16 +11,39 @@ import { Text, View } from "../../components/Themed";
 import MasonryList from "../../components/MasonryList";
 import pins from "../../assets/data/pins";
 import Colors from "../../constants/Colors";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BottomSheet } from "react-native-btr";
 import CustomButton from "../../components/CustomButton";
 import { useAuth } from "../../context/auth";
 import { useNavigation } from "@react-navigation/native";
+import profile from "../../backend/profile";
 
 export default function ProfileTab() {
   const navigator = useNavigation();
   const colorScheme = useColorScheme();
-  const { signout } = useAuth();
+  const { signout, user } = useAuth();
+
+  const [userDetails, setUserDetails] = useState({});
+  const [uri, setUri] = useState(
+    "http://pinfinity.onrender.com/user/get-profile/" + user.uid + "/profile"
+  );
+
+  useEffect(() => {
+    profile
+      .get("/get-user/" + user.uid)
+      .then((response) => {
+        setUserDetails(response.data);
+        setUri(
+          "http://pinfinity.onrender.com/user/get-profile/" +
+            user.uid +
+            "/" +
+            Date.now()
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  });
 
   const [visible, setVisible] = useState(false);
   const toggleBottomNavigationView = () => {
@@ -46,14 +69,16 @@ export default function ProfileTab() {
         <View>
           <Image
             source={{
-              uri: "https://media.licdn.com/dms/image/D5603AQE46ZBPlCLQEg/profile-displayphoto-shrink_800_800/0/1673192951205?e=2147483647&v=beta&t=6JLQp8jth0E43xMALYIHYEDLOBmqc83MBTaV9AIIPzo",
+              uri: uri,
             }}
             style={styles.image}
           />
         </View>
 
-        <Text style={styles.name}>Tamjid Logan</Text>
-        <Text style={styles.subtitle}>@tam_11</Text>
+        <Text style={styles.name}>
+          {userDetails.firstname + " " + userDetails.surname}
+        </Text>
+        <Text style={styles.subtitle}>@{userDetails.username}</Text>
 
         <View style={styles.info}>
           <Text style={styles.info_text}>{"123\nFollowers"}</Text>
@@ -62,10 +87,7 @@ export default function ProfileTab() {
         </View>
         <View style={{ width: "100%", marginBottom: 20 }}>
           <Text style={styles.title}>About</Text>
-          <Text style={styles.subtitle}>If not now, when?</Text>
-          <Text style={styles.subtitle}>
-            Keep calm and sip a glass of wine 🍷
-          </Text>
+          <Text style={styles.subtitle}>{userDetails.about}</Text>
         </View>
       </View>
       <View>
@@ -163,6 +185,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: 200,
+    height: 200,
     aspectRatio: 1,
     borderRadius: 100,
   },

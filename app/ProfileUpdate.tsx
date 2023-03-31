@@ -3,19 +3,20 @@ import { Text, View } from "../components/Themed";
 import {
   StyleSheet,
   Image,
-  TouchableOpacity,
   ScrollView,
   Pressable,
   useColorScheme,
   TextInput,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Entypo } from "@expo/vector-icons";
 import Colors from "../constants/Colors";
 import { Feather } from "@expo/vector-icons";
 import CustomButton from "../components/CustomButton";
+import { useAuth } from "../context/auth";
+import profile from "../backend/profile";
 
 const ProfileUpdate = () => {
   const [image, setImage] = useState(null);
@@ -26,6 +27,21 @@ const ProfileUpdate = () => {
   const [about, setAbout] = useState("");
   const navigation = useNavigation();
   const colorScheme = useColorScheme();
+  const { user } = useAuth();
+
+  useEffect(() => {
+    profile
+      .get("/get-user/" + user.uid)
+      .then((response) => {
+        setFirstname(response.data.firstname);
+        setSurname(response.data.surname);
+        setUsername(response.data.username);
+        setAbout(response.data.about);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   const makeChanges = (value) => {
     setAbout(value);
@@ -51,7 +67,37 @@ const ProfileUpdate = () => {
   };
 
   const onUpdatePressed = () => {
-    console.warn("Update pressed");
+    let formData = new FormData();
+    formData.append("firstname", firstname);
+    formData.append("surname", surname);
+    formData.append("username", username);
+    formData.append("about", about);
+    if (image != null) {
+      formData.append("profile", {
+        uri: image,
+        type: "image/jpeg",
+        name: user.uid + ".jpeg",
+      });
+    }
+
+    console.log(image);
+    // console.log(image.uri);
+    // console.log(image.type);
+    // console.log(image.fileName);
+
+    profile
+      .put("/update-user/" + user.uid, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        console.log("User updated");
+        setImage(null);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -66,11 +112,22 @@ const ProfileUpdate = () => {
                 image
                   ? { uri: image }
                   : {
-                      uri: "https://media.licdn.com/dms/image/D5603AQE46ZBPlCLQEg/profile-displayphoto-shrink_800_800/0/1673192951205?e=2147483647&v=beta&t=6JLQp8jth0E43xMALYIHYEDLOBmqc83MBTaV9AIIPzo",
+                      uri:
+                        "http://pinfinity.onrender.com/user/get-profile/" +
+                        user.uid +
+                        "/" +
+                        Date.now(),
+                      cache: "reload",
                     }
               }
               style={styles.image}
             />
+            {/* <Image
+                key={key}
+                source={{ uri }}
+                style={{ width: 100, height: 100 }}
+                onError={reloadImage}
+            /> */}
             <Pressable style={styles.edit_button} onPress={pickImage}>
               <Feather name="edit-2" size={24} color="white" />
             </Pressable>
@@ -179,6 +236,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: 150,
+    height: 150,
     aspectRatio: 1,
     borderRadius: 100,
   },
@@ -235,7 +293,6 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     width: "100%",
     alignItems: "center",
-
     marginBottom: 20,
   },
 });

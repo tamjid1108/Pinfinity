@@ -7,7 +7,6 @@ import {
 } from "react-native";
 import React from "react";
 import { Text } from "../components/Themed";
-import CustomButton from "./CustomButton";
 import { AntDesign } from "@expo/vector-icons";
 import Colors from "../constants/Colors";
 
@@ -75,4 +74,3 @@ const styles = StyleSheet.create({
     margin: 25,
   },
 });
-
