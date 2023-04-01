@@ -19,11 +19,11 @@ const SearchTab = () => {
   };
 
   const images = [
-    "https://source.unsplash.com/random/400x400?cat",
-    "https://source.unsplash.com/random/400x400?nature",
-    "https://source.unsplash.com/random/400x400?food",
-    "https://source.unsplash.com/random/400x400?car",
-    "https://source.unsplash.com/random/400x400?city",
+    "https://source.unsplash.com/random/800x800?travel",
+    "https://source.unsplash.com/random/800x800?sun",
+    "https://source.unsplash.com/random/800x800?cat",
+    "https://source.unsplash.com/random/800x800?beach",
+    "https://source.unsplash.com/random/800x800?city",
   ];
 
   return (
@@ -36,8 +36,9 @@ const SearchTab = () => {
           backgroundColor: Colors[colorScheme ?? "light"].background,
           position: "absolute",
           top: 60,
-          width: "90%",
-          height: 45,
+          width: "95%",
+          height: 60,
+
           alignSelf: "center",
           zIndex: 1,
           borderTopWidth: 0,
@@ -47,7 +48,8 @@ const SearchTab = () => {
         }}
         inputContainerStyle={{
           backgroundColor: Colors[colorScheme ?? "light"].background,
-          height: 30,
+          height: 40,
+          borderRadius: 50,
         }}
         searchIcon={
           <Feather
