@@ -35,7 +35,7 @@ export default function Pin(props) {
 
   const onPin = () => {};
 
-  const { pinid, pinUri, title, description } = props.pin;
+  const { userid, pinid, pinUri, title, description } = props.pin;
 
   useEffect(() => {
     Image.getSize(pinUri, (width, height) => {
@@ -44,7 +44,13 @@ export default function Pin(props) {
   }, [pinUri]);
 
   const openPinScreen = () => {
-    navigation.navigate("PinScreen", { pinid, pinUri, title, description }); // navigate to PinScreen with a pin object passed as a parameter
+    navigation.navigate("PinScreen", {
+      userid,
+      pinid,
+      pinUri,
+      title,
+      description,
+    }); // navigate to PinScreen with a pin object passed as a parameter
   };
 
   return (

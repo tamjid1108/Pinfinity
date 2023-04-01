@@ -60,9 +60,9 @@ export function Provider(props) {
             .catch((error) => {
               const errorCode = error.code;
               const errorMessage = error.message;
-              console.warn(
-                "Error code: " + errorCode + " Error message: " + errorMessage
-              );
+              // console.warn(
+              //   "Error code: " + errorCode + " Error message: " + errorMessage
+              // );
             });
         },
         signout: async () => {
@@ -79,9 +79,9 @@ export function Provider(props) {
             .catch((error) => {
               const errorCode = error.code;
               const errorMessage = error.message;
-              console.warn(
-                "Error code: " + errorCode + " Error message: " + errorMessage
-              );
+              // console.warn(
+              //   "Error code: " + errorCode + " Error message: " + errorMessage
+              // );
             });
         },
         signUp: async (fullname, email, password) => {
@@ -117,9 +117,9 @@ export function Provider(props) {
             .catch((error) => {
               const errorCode = error.code;
               const errorMessage = error.message;
-              console.warn(
-                "Error code: " + errorCode + " Error message: " + errorMessage
-              );
+              // console.warn(
+              //   "Error code: " + errorCode + " Error message: " + errorMessage
+              // );
             });
         },
         user,
