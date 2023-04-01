@@ -16,19 +16,36 @@ import { Text, View } from "../components/Themed";
 import { Entypo } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import CustomButton from "../components/CustomButton";
+import profile from "../backend/profile";
 import PinToBoard from "../components/PinToBoard";
+import { useAuth } from "../context/auth";
 
 const PinScreen = () => {
   const [ratio, setRatio] = useState(1);
 
+  const [username, setUsername] = useState("");
+
+  const { user } = useAuth();
   const navigation = useNavigation();
   const route = useRoute();
   const insets = useSafeAreaInsets();
 
+  const userid = route.params?.userid;
   const pinid = route.params?.pinid;
   const pinUri = route.params?.pinUri;
   const title = route.params?.title;
   const description = route.params?.description;
+
+  useEffect(() => {
+    profile
+      .get("/get-user/" + userid)
+      .then((response) => {
+        setUsername(response.data.username);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [userid]);
 
   const [visible, setVisible] = useState(false);
   const toggleBottomNavigationView = () => {
@@ -41,12 +58,18 @@ const PinScreen = () => {
     });
   }, [pinid]);
 
-  const onPinPressed = () => {
-    console.warn("pin it");
+  // const onPinPressed = () => {
+  //   console.warn("pin it");
+  // };
+
+  const onPressed = () => {
+    if (user.uid == userid) {
+      navigation.navigate("ProfileTab");
+    } else navigation.navigate("OtherProfile", { userid: userid });
   };
 
   const onFollowPressed = () => {
-    console.warn("follow pressed");
+    // console.warn("follow pressed");
   };
 
   const goBack = () => {
@@ -67,9 +90,9 @@ const PinScreen = () => {
           />
 
           <View>
-            <View style={styles.userinfo}>
+            <Pressable onPress={onPressed} style={styles.userinfo}>
               <View style={{ width: "70%" }}>
-                <Text style={styles.title}>Tamjid L</Text>
+                <Text style={styles.title}>{username}</Text>
                 <Text style={styles.subtitle}>123 followers</Text>
               </View>
 
@@ -80,7 +103,7 @@ const PinScreen = () => {
                 fgColor="white"
                 textSize={16}
               />
-            </View>
+            </Pressable>
 
             <Text style={styles.pin_title}>{title}</Text>
             <Text style={styles.pin_subtitle}>{description}</Text>
@@ -102,7 +125,11 @@ const PinScreen = () => {
           <Entypo name={"chevron-left"} size={24} color={"white"} />
         </Pressable>
       </ScrollView>
-      <PinToBoard visible={visible} toggle={toggleBottomNavigationView} />
+      <PinToBoard
+        visible={visible}
+        toggle={toggleBottomNavigationView}
+        pinid={pinid}
+      />
     </SafeAreaView>
   );
 };

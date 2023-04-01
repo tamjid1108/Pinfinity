@@ -13,15 +13,15 @@ import Colors from "../constants/Colors";
 const SocialSignInButtons = () => {
   const colorScheme = useColorScheme();
   const onSignInFacebook = () => {
-    console.warn("onSignInFacebook");
+    // console.warn("onSignInFacebook");
   };
 
   const onSignInGoogle = () => {
-    console.warn("onSignInGoogle");
+    // console.warn("onSignInGoogle");
   };
 
   const onSignInApple = () => {
-    console.warn("onSignInApple");
+    // console.warn("onSignInApple");
   };
 
   return (

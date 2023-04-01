@@ -52,6 +52,7 @@ function RootLayoutNav() {
           <Stack.Screen name="PinScreen" options={{ headerShown: false }} />
           <Stack.Screen name="ProfileUpdate" options={{ headerShown: false }} />
           <Stack.Screen name="CreatePin" options={{ headerShown: false }} />
+          <Stack.Screen name="OtherProfile" options={{ headerShown: false }} />
         </Stack>
       </ThemeProvider>
     </Provider>

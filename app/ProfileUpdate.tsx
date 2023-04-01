@@ -62,7 +62,8 @@ const ProfileUpdate = () => {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       allowsMultipleSelection: false,
-      quality: 0.5,
+      aspect: [1, 1],
+      quality: 0.6,
     });
 
     if (!result.canceled) {

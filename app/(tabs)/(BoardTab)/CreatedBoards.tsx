@@ -1,12 +1,38 @@
 import { FlatList, ScrollView, StyleSheet, Pressable } from "react-native";
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { View, Text } from "../../../components/Themed";
 import BoardPreview from "../../../components/BoardPreview";
-import boards from "../../../assets/data/boards";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useAuth } from "../../../context/auth";
+import boards from "../../../backend/boards";
 
 const CreatedBoards = () => {
   const navigation = useNavigation();
+  const { user } = useAuth();
+
+  const fetchDetails = useCallback(() => {
+    boards
+      .get("/get-boards/" + user.uid)
+      .then((response) => {
+        setMyBoards(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  useEffect(() => {
+    fetchDetails();
+  }, [fetchDetails]);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchDetails();
+    }, [fetchDetails])
+  );
+
+  const [myBoards, setMyBoards] = useState([]);
+
   const renderItem = (board) => {
     return (
       <Pressable
@@ -29,9 +55,9 @@ const CreatedBoards = () => {
           <Text style={styles.title}>Pin to create boards!</Text>
         </View>
         <FlatList
-          data={boards}
+          data={myBoards}
           renderItem={renderItem}
-          keyExtractor={(board) => board.id}
+          keyExtractor={(board) => board.boardid}
           scrollEnabled={false}
         />
       </View>

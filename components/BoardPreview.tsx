@@ -3,24 +3,12 @@ import React from "react";
 import pins from "../assets/data/pins";
 import { View, Text } from "./Themed";
 
-interface IPin {
-  id: string;
-  title: string;
-  image: string;
-}
-
-interface IBoard {
-  id: string;
-  title: string;
-  pins: IPin[];
-}
-
-const Grid1 = ({ board }: IBoard) => {
+const Grid1 = ({ board }) => {
   return (
     <View style={styles.container}>
       <View style={styles.column}>
         <Image
-          source={{ uri: board.pins[0].image }}
+          source={{ uri: board.pinsArray[0].pinUri }}
           style={{
             width: "100%",
             aspectRatio: 1.5,
@@ -33,12 +21,12 @@ const Grid1 = ({ board }: IBoard) => {
   );
 };
 
-const Grid2 = ({ board }: IBoard) => {
+const Grid2 = ({ board }) => {
   return (
     <View style={styles.container}>
       <View style={styles.column}>
         <Image
-          source={{ uri: board.pins[0].image }}
+          source={{ uri: board.pinsArray[0].pinUri }}
           style={{
             width: "100%",
             aspectRatio: 0.75,
@@ -50,7 +38,7 @@ const Grid2 = ({ board }: IBoard) => {
       </View>
       <View style={styles.column}>
         <Image
-          source={{ uri: board.pins[1].image }}
+          source={{ uri: board.pinsArray[1].pinUri }}
           style={{
             width: "100%",
             aspectRatio: 0.75,
@@ -64,12 +52,12 @@ const Grid2 = ({ board }: IBoard) => {
   );
 };
 
-const Grid3 = ({ board }: IBoard) => {
+const Grid3 = ({ board }) => {
   return (
     <View style={styles.container}>
       <View style={styles.column}>
         <Image
-          source={{ uri: board.pins[0].image }}
+          source={{ uri: board.pinsArray[0].pinUri }}
           style={{
             width: "100%",
             aspectRatio: 0.5,
@@ -81,13 +69,13 @@ const Grid3 = ({ board }: IBoard) => {
       </View>
       <View style={styles.column}>
         <Image
-          source={{ uri: board.pins[1].image }}
+          source={{ uri: board.pinsArray[1].pinUri }}
           style={{ width: "100%", aspectRatio: 0.5, margin: 1 }}
         />
       </View>
       <View style={styles.column}>
         <Image
-          source={{ uri: board.pins[2].image }}
+          source={{ uri: board.pinsArray[2].pinUri }}
           style={{
             width: "100%",
             aspectRatio: 0.5,
@@ -101,12 +89,12 @@ const Grid3 = ({ board }: IBoard) => {
   );
 };
 
-const Grid4 = ({ board }: IBoard) => {
+const Grid4 = ({ board }) => {
   return (
     <View style={styles.container}>
       <View style={styles.column}>
         <Image
-          source={{ uri: board.pins[0].image }}
+          source={{ uri: board.pinsArray[0].pinUri }}
           style={{
             width: "100%",
             aspectRatio: 1.5,
@@ -115,7 +103,7 @@ const Grid4 = ({ board }: IBoard) => {
           }}
         />
         <Image
-          source={{ uri: board.pins[1].image }}
+          source={{ uri: board.pinsArray[1].pinUri }}
           style={{
             width: "100%",
             aspectRatio: 1.5,
@@ -126,7 +114,7 @@ const Grid4 = ({ board }: IBoard) => {
       </View>
       <View style={styles.column}>
         <Image
-          source={{ uri: board.pins[2].image }}
+          source={{ uri: board.pinsArray[2].pinUri }}
           style={{
             width: "100%",
             aspectRatio: 1.5,
@@ -135,7 +123,7 @@ const Grid4 = ({ board }: IBoard) => {
           }}
         />
         <Image
-          source={{ uri: board.pins[3].image }}
+          source={{ uri: board.pinsArray[3].pinUri }}
           style={{
             width: "100%",
             aspectRatio: 1.5,
@@ -148,12 +136,12 @@ const Grid4 = ({ board }: IBoard) => {
   );
 };
 
-const Grid5 = ({ board }: IBoard) => {
+const Grid5 = ({ board }) => {
   return (
     <View style={styles.container}>
       <View style={styles.column}>
         <Image
-          source={{ uri: board.pins[0].image }}
+          source={{ uri: board.pinsArray[0].pinUri }}
           style={{
             width: "100%",
             aspectRatio: 0.496,
@@ -165,7 +153,7 @@ const Grid5 = ({ board }: IBoard) => {
       </View>
       <View style={styles.column}>
         <Image
-          source={{ uri: board.pins[1].image }}
+          source={{ uri: board.pinsArray[1].pinUri }}
           style={{
             width: "100%",
             aspectRatio: 1,
@@ -173,7 +161,7 @@ const Grid5 = ({ board }: IBoard) => {
           }}
         />
         <Image
-          source={{ uri: board.pins[2].image }}
+          source={{ uri: board.pinsArray[2].pinUri }}
           style={{
             width: "100%",
             aspectRatio: 1,
@@ -183,7 +171,7 @@ const Grid5 = ({ board }: IBoard) => {
       </View>
       <View style={styles.column}>
         <Image
-          source={{ uri: board.pins[3].image }}
+          source={{ uri: board.pinsArray[3].pinUri }}
           style={{
             width: "100%",
             aspectRatio: 1,
@@ -192,7 +180,7 @@ const Grid5 = ({ board }: IBoard) => {
           }}
         />
         <Image
-          source={{ uri: board.pins[4].image }}
+          source={{ uri: board.pinsArray[4].pinUri }}
           style={{
             width: "100%",
             aspectRatio: 1,
@@ -205,9 +193,9 @@ const Grid5 = ({ board }: IBoard) => {
   );
 };
 
-const BoardPreview = ({ board }: IBoard) => {
+const BoardPreview = ({ board }) => {
   let result: JSX.Element;
-  switch (board.pins.length) {
+  switch (board.pinsArray.length) {
     case 1:
       result = <Grid1 board={board} />;
       break;

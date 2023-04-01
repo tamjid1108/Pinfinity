@@ -43,11 +43,11 @@ const SignUp = () => {
   };
 
   const onTermsOfUsePressed = () => {
-    console.warn("terms of use");
+    // console.warn("terms of use");
   };
 
   const onPrivacyPressed = () => {
-    console.warn("privacy");
+    // console.warn("privacy");
   };
   return (
     <SafeAreaView>

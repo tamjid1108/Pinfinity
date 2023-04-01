@@ -28,8 +28,9 @@ export default function ProfileTab() {
   const [mypins, setMyPins] = useState([]);
   const colorScheme = useColorScheme();
   const { signout, user } = useAuth();
+  const [number_of_pins, setNumber_of_pins] = useState(0);
 
-  const isFocused = useIsFocused();
+  // const isFocused = useIsFocused();
 
   const [firstname, setFirstname] = useState("");
   const [surname, setSurname] = useState("");
@@ -58,6 +59,7 @@ export default function ProfileTab() {
       .then((response) => {
         // console.log(response.data);
         setMyPins(response.data);
+        setNumber_of_pins(response.data.length);
       })
       .catch((error) => {
         console.log(error);
@@ -118,7 +120,7 @@ export default function ProfileTab() {
 
         <View style={styles.info}>
           <Text style={styles.info_text}>{"123\nFollowers"}</Text>
-          <Text style={styles.info_text}>{"10\nPins"}</Text>
+          <Text style={styles.info_text}>{`${number_of_pins}\nPins`}</Text>
           <Text style={styles.info_text}>{"101\nFollowing"}</Text>
         </View>
         <View style={{ width: "100%", marginBottom: 20 }}>

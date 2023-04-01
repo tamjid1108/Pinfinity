@@ -4,7 +4,7 @@ import {
   StyleSheet,
   useColorScheme,
 } from "react-native";
-import React, { useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import MasonryList from "../../../components/MasonryList";
 import { useRouter, useSearchParams } from "expo-router";
 import { useRoute } from "@react-navigation/native";
@@ -14,6 +14,7 @@ import { BottomSheet } from "react-native-btr";
 import Colors from "../../../constants/Colors";
 import CustomButton from "../../../components/CustomButton";
 import { SimpleLineIcons } from "@expo/vector-icons";
+import boards from "../../../backend/boards";
 
 const IndividualBoard = () => {
   const router = useRouter();
@@ -26,6 +27,7 @@ const IndividualBoard = () => {
   };
 
   board = route.params?.board;
+  const [finaltitle, setFinalTitle] = React.useState(board.title);
   const [title, setTitle] = React.useState(board.title);
 
   const goBack = () => {
@@ -33,15 +35,37 @@ const IndividualBoard = () => {
   };
 
   const onDeletePressed = () => {
-    console.warn("Delete pressed");
+    boards
+      .delete("/delete-board/" + board.boardid)
+      .then((response) => {
+        router.replace("/CreatedBoards");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const onSavePressed = () => {
-    console.warn("Save pressed");
+    const formData = new FormData();
+    formData.append("title", title);
+    boards
+      .put("/update-board/" + board.boardid, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        setFinalTitle(title);
+        setVisible(false);
+        console.log("board updated");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
-    <ScrollView>
+    <ScrollView keyboardShouldPersistTaps="always">
       <View style={styles.top_container}>
         <Pressable onPress={goBack} style={styles.back_button}>
           <Entypo
@@ -64,10 +88,10 @@ const IndividualBoard = () => {
 
       <View style={{ marginTop: 20, marginHorizontal: 30, marginBottom: 20 }}>
         <Text style={{ textAlign: "center", fontSize: 24, fontWeight: "bold" }}>
-          {board.title}
+          {finaltitle}
         </Text>
       </View>
-      {/* <MasonryList pins={board.pins} /> */}
+      <MasonryList pins={board.pinsArray} />
 
       <BottomSheet
         visible={visible}

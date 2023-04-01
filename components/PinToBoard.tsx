@@ -5,32 +5,89 @@ import {
   Pressable,
   FlatList,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BottomSheet } from "react-native-btr";
 import { View, Text, TextInput } from "./Themed";
 import Colors from "../constants/Colors";
 import CustomButton from "./CustomButton";
-import boards from "../assets/data/boards";
-import { MaterialIcons } from "@expo/vector-icons";
 import SmallBoardPreview from "./SmallBoardPreview";
+import { useAuth } from "../context/auth";
+import uuid from "react-native-uuid";
+import boards from "../backend/boards";
+import { useRouter } from "expo-router";
 
 const PinToBoard = (props) => {
   const colorScheme = useColorScheme();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { user } = useAuth();
+  const router = useRouter();
+
+  const [myBoards, setMyBoards] = useState([]);
 
   const [title, setTitle] = useState("");
 
   const [createBoard, setCreatBoard] = useState(false);
 
+  useEffect(() => {
+    boards.get("/get-boards/" + user.uid).then((response) => {
+      setMyBoards(response.data);
+    });
+  }, []);
+
+  const saveToExistingBoard = (boardid) => {
+    const formData = new FormData();
+    formData.append("newpinid", props.pinid);
+    boards
+      .put("/update-boards/" + boardid, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        console.log("pin added to board");
+        router.replace("/CreatedBoards");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const onCreatePressed = () => {
-    console.log("create pressed");
+    const formData = new FormData();
+    const boardid = uuid.v4();
+    formData.append("boardid", boardid);
+    formData.append("userid", user.uid);
+    formData.append("title", title);
+    formData.append("firstpinid", props.pinid);
+
+    setIsLoading(true);
+
+    boards
+      .post("/create-board", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        setIsLoading(false);
+        console.log("board created");
+        router.replace("/CreatedBoards");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    // console.log(props.pinid);
   };
 
   const renderItem = (board) => {
     return (
       <Pressable
         onPress={() => {
-          console.log("Pressed on board: " + board.item.title);
+          saveToExistingBoard(board.item.boardid);
         }}
       >
         <View
@@ -62,12 +119,24 @@ const PinToBoard = (props) => {
           { backgroundColor: Colors[colorScheme ?? "light"].inputBackground },
         ]}
       >
-        <Text style={{ fontSize: 18, marginBottom: 30, textAlign: "center" }}>
+        <Text style={{ fontSize: 20, marginBottom: 20, textAlign: "center" }}>
           Save to board
         </Text>
 
         {createBoard ? (
           <>
+            <View
+              style={{
+                backgroundColor: Colors[colorScheme ?? "light"].inputBackground,
+                marginBottom: 11,
+              }}
+            >
+              <ActivityIndicator
+                animating={isLoading}
+                color={Colors[colorScheme ?? "light"].tint}
+                size="large"
+              />
+            </View>
             <TextInput
               onChangeText={setTitle}
               placeholder={"Give your board a title"}
@@ -108,13 +177,14 @@ const PinToBoard = (props) => {
                     fontWeight: "bold",
                     textAlign: "center",
                     paddingVertical: 40,
+                    color: "white",
                   }}
                 >
                   Create a new board
                 </Text>
               </TouchableOpacity>
             </View>
-            {boards.length != 0 && (
+            {myBoards.length != 0 && (
               <>
                 <Text
                   style={{
@@ -128,9 +198,9 @@ const PinToBoard = (props) => {
                 </Text>
 
                 <FlatList
-                  data={boards}
+                  data={myBoards}
                   renderItem={renderItem}
-                  keyExtractor={(board) => board.id}
+                  keyExtractor={(board) => board.boardid}
                   showsVerticalScrollIndicator={false}
                 />
               </>

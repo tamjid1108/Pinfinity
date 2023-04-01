@@ -7,7 +7,7 @@ const SmallBoardPreview = ({ board }) => {
     <View style={styles.container}>
       <View style={styles.column}>
         <Image
-          source={{ uri: board.pins[0].image }}
+          source={{ uri: board.pinsArray[0].pinUri }}
           style={{
             width: "100%",
             aspectRatio: 0.5,
@@ -18,13 +18,19 @@ const SmallBoardPreview = ({ board }) => {
         />
       </View>
       <View style={styles.column}>
-        {board.pins[1] ? (
-          <Image source={{ uri: board.pins[1].image }} style={styles.box1} />
+        {board.pinsArray[1] ? (
+          <Image
+            source={{ uri: board.pinsArray[1].pinUri }}
+            style={styles.box1}
+          />
         ) : (
           <View style={styles.box1}></View>
         )}
-        {board.pins[2] ? (
-          <Image source={{ uri: board.pins[2].image }} style={styles.box2} />
+        {board.pinsArray[2] ? (
+          <Image
+            source={{ uri: board.pinsArray[2].pinUri }}
+            style={styles.box2}
+          />
         ) : (
           <View style={styles.box2}></View>
         )}
@@ -53,7 +59,7 @@ const styles = StyleSheet.create({
     height: 49,
     aspectRatio: 1,
     marginBottom: 2,
-    backgroundColor: "#656565",
+    backgroundColor: "#65656555",
     borderTopRightRadius: 10,
   },
   box2: {
