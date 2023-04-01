@@ -59,6 +59,8 @@ const styles = StyleSheet.create({
   image: {
     width: windowWidth,
     aspectRatio: 1,
+    borderTopRightRadius: 30,
+    borderTopLeftRadius: 30,
   },
 });
 

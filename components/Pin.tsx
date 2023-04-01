@@ -55,30 +55,11 @@ export default function Pin(props) {
 
   return (
     <Pressable style={styles.pin} onPress={openPinScreen}>
-      <TouchableWithoutFeedback
-        onLongPress={handleLongPress}
-        onPress={handlePress}
-        delayLongPress={300}
-      >
-        {showIcons ? (
-          <View>
-            <Image
-              source={{ uri: pinUri }}
-              style={[styles.image, { aspectRatio: ratio }]}
-              blurRadius={30}
-            />
-            <Pressable onPress={onPin} style={styles.action_button}>
-              <AntDesign name="pushpino" size={24} color="white" />
-            </Pressable>
-          </View>
-        ) : (
-          <Image
-            source={{ uri: pinUri }}
-            style={[styles.image, { aspectRatio: ratio }]}
-          />
-        )}
-      </TouchableWithoutFeedback>
-      <Text style={styles.title}>{showIcons ? title : truncate(title)}</Text>
+      <Image
+        source={{ uri: pinUri }}
+        style={[styles.image, { aspectRatio: ratio }]}
+      />
+      <Text style={styles.title}>{truncate(title)}</Text>
     </Pressable>
   );
 }
